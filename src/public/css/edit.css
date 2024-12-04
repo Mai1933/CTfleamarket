@@ -1,0 +1,104 @@
+.edit_content {
+    width: 100%;
+    margin-top: 170px;
+    display: flex;
+    justify-content: center;
+}
+
+.edit_form {
+    width: 45%;
+    max-width: 1540px;
+}
+
+.form_ttl {
+    font-size: 36px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.form_images {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.image_icon {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.image_uploads {
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+}
+
+.image_upload {
+    width: 300px;
+    position: relative;
+    margin-left: 33px;
+}
+
+.image_upload::file-selector-button {
+    width: 179px;
+    height: 49px;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.custom_button {
+    width: 179px;
+    height: 49px;
+    border-radius: 10px;
+    border: 2px solid #F55;
+    color: #F55;
+    font-size: 18px;
+    background-color: #FFF;
+    cursor: pointer;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.form_inputs {
+    margin-top: 55px;
+    margin-bottom: 100px;
+}
+
+.input_bunch {
+    margin-bottom: 38px;
+}
+
+.bunch_ttl {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.bunch_input {
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 24px;
+}
+
+.form_submit {
+    width: 100%;
+    height: 65px;
+    border-radius: 5px;
+    background: #F55;
+    color: #FFF;
+    border: none;
+    font-size: 26px;
+}
+
+/* Responsive style */
+@media screen and (max-width: 850px) {
+    .edit_form {
+        width: 55%;
+    }
+}
