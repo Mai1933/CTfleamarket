@@ -15,5 +15,25 @@
             <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
             <p class="product_name">商品名</p>
         </div>
+        <div class="product">
+            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
+            <p class="product_name">商品名</p>
+        </div>
+        <div class="product">
+            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
+            <p class="product_name">商品名</p>
+        </div>
+        <div class="product">
+            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
+            <p class="product_name">商品名</p>
+        </div>
+        <div class="product">
+            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
+            <p class="product_name">商品名</p>
+        </div>
+        <div class="product">
+            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
+            <p class="product_name">商品名</p>
+        </div>
     </div>
 </div>
