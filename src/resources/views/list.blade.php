@@ -11,29 +11,12 @@
         <button class="choice-mylist">マイリスト</button>
     </div>
     <div class="list_content-products">
-        <div class="product">
-            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
-            <p class="product_name">商品名</p>
-        </div>
-        <div class="product">
-            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
-            <p class="product_name">商品名</p>
-        </div>
-        <div class="product">
-            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
-            <p class="product_name">商品名</p>
-        </div>
-        <div class="product">
-            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
-            <p class="product_name">商品名</p>
-        </div>
-        <div class="product">
-            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
-            <p class="product_name">商品名</p>
-        </div>
-        <div class="product">
-            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
-            <p class="product_name">商品名</p>
-        </div>
+        @foreach ($items as $item)
+            <div class="product">
+                <a href="/item/{{$item->id}}" class="product-link"></a>
+                <img src="{{ asset('storage/' . $item->item_image) }}" alt="item" class="product_img">
+                <p class="product_name">{{ $item->item_name }}</p>
+            </div>
+        @endforeach
     </div>
 </div>

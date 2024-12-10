@@ -2,28 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     public function register()
     {
-        return view('register');
+        return view('auth.register');
     }
 
     public function login()
     {
-        return view('login');
+        return view('auth.login');
     }
 
     public function list()
     {
-        return view('list');
+        $items = Item::all();
+        return view('list',compact('items'));
     }
 
-    public function detail()
+    public function detail($item_id)
     {
-        return view('detail');
+        $item = Item::find($item_id);
+        $categories = Category::all();
+        return view('detail',compact('item','categories'));
     }
 
     public function buy()

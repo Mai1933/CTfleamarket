@@ -1,3 +1,7 @@
+.css-xwws3d.ant-app.h-full {
+    display: none;
+}
+
 * {
     height: auto;
 }
@@ -42,6 +46,8 @@
     height: 60px;
     border-radius: 5px;
     margin-top: 10px;
+    font-size: 24px;
+    padding-left: 3%;
 }
 
 .form_submit {
