@@ -9,9 +9,9 @@ Route::get('/login', [ProductController::class, 'login']);
 
 Route::get('/', [ProductController::class, 'list']);
 
-Route::get('/item', [ProductController::class, 'detail']);
+Route::get('/item/{item_id}', [ProductController::class, 'detail']);
 
-Route::get('/purchase', [ProductController::class, 'buy']);
+Route::get('/purchase/{item_id}', [ProductController::class, 'buy']);
 
 Route::get('/purchase/address', [ProductController::class, 'address']);
 

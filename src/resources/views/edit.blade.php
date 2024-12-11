@@ -11,8 +11,8 @@
         <div class="form_images">
             <img src="{{ asset('storage/miu.png')}}" alt="icon" class="image_icon">
             <div class="image_uploads">
-                <input type="file" class="image_upload">
-                <div class="custom_button">画像を選択する</div>
+                <input type="file" class="image_upload" id="image_upload">
+                <label class="custom_button" for="image_upload">画像を選択する</label>
             </div>
         </div>
         <div class="form_inputs">

@@ -1,0 +1,192 @@
+* {
+    height: auto;
+}
+
+.sell_content {
+    width: 100%;
+    margin-top: 170px;
+}
+
+.sell_content-inner {
+    display: flex;
+    justify-content: center;
+}
+
+.sell_form {
+    width: 45%;
+    max-width: 1540px;
+}
+
+.form_ttl {
+    font-size: 36px;
+    display: flex;
+    justify-content: center;
+}
+
+.item_image {
+    width: 100%;
+    aspect-ratio: 4.5/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 4px;
+    border: 1px dashed #5F5F5F;
+}
+
+.image_upload {
+    transform: translateX(29%);
+}
+
+.image_upload::file-selector-button {
+    width: 179px;
+    height: 49px;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.custom_button {
+    width: 179px;
+    height: 49px;
+    border-radius: 10px;
+    border: 2px solid #F55;
+    color: #F55;
+    font-size: 18px;
+    background-color: #FFF;
+    cursor: pointer;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.form_inputs {
+    margin-top: 55px;
+    margin-bottom: 100px;
+}
+
+.input_bunch {
+    margin-top: 38px;
+}
+
+.bunch_ttl {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.bunch_input {
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 20px;
+    padding-left: 3%;
+    border: 1px solid #5F5F5F;
+}
+
+.bunch_input-select {
+    border-radius: 5px;
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 20px;
+    padding-left: 5%;
+    margin-top: 20px;
+}
+
+.select_option {
+    border-radius: 5px;
+    border: 1.5px solid #B1B1B1;
+    background: #636769;
+    color: #FFF;
+    padding-left: 5%;
+}
+
+.form_submit {
+    width: 100%;
+    height: 65px;
+    border-radius: 5px;
+    background: #F55;
+    color: #FFF;
+    border: none;
+    font-size: 26px;
+}
+
+.input_index {
+    margin-top: 10vh;
+    border-bottom: 1px solid #5F5F5F;
+    padding-bottom: 1%;
+}
+
+.ttl_detail {
+    color: #5F5F5F;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.bunch_input-category {
+    width: 132px;
+    height: 32px;
+    display: none;
+}
+
+.bunch_input-category + label {
+    color: #FF5655;
+    text-align: center;
+    font-family: Inter;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    border: 2px solid #FF5655;
+    border-radius: 200px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.3s;
+}
+
+.bunch_input-category:checked + label {
+    color: #FFF;
+    background-color: #FF5655;
+}
+
+.bunch_input-description {
+    width: 100%;
+    height: 130px;
+    resize: none;
+    padding: 3%;
+    font-size: 20px;
+}
+
+.form_submit {
+    width: 100%;
+    aspect-ratio: 5.4/1;
+    border-radius: 5px;
+    background: #F55;
+    color: #FFF;
+    border: none;
+    font-size: 26px;
+}
+
+.form_login {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+/* Responsive style */
+@media screen and (max-width: 850px) {
+    .sell_form {
+        width: 70%;
+    }
+}
+

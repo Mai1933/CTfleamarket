@@ -26,9 +26,9 @@
 
 ## ER 図(表示されない場合は再読み込みしてください）
 
-![ER drawio](https://github.com/user-attachments/assets/ce1db305-a997-4ef4-aea8-492d191e47da)
+![ER drawio](https://github.com/user-attachments/assets/6e766371-da2c-4eac-8e34-ae9c914d20ee)
 
 ## URL
 
-・開発環境：http://localhost/
-・phpMyAdmin:http://localhost:8080/
+開発環境：http://localhost/
+phpMyAdmin:http://localhost:8080/
