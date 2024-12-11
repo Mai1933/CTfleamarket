@@ -8,16 +8,16 @@
 <main>
     <div class="detail_content">
         <div class="content_image">
-            <img src="{{ asset('storage/miu.png') }}" alt="item_image" class="item_image">
+            <img src="{{ asset('storage/' . $item->item_image) }}" alt="item_image" class="item_image">
         </div>
         <div class="content_others">
             <div class="content_others_inner">
                 <div class="item_names">
-                    <h3 class="item_name">商品名</h3>
-                    <span class="item_brand">ブランド名</span>
+                    <h3 class="item_name">{{ $item->item_name }}</h3>
+                    <span class="item_brand">{{ $item->brand }}</span>
                     <div class="item_prices">
                         <span class="price_detail">￥</span>
-                        <span class="price">47,000</span>
+                        <span class="price">{{ $item->price }}</span>
                         <span class="price_detail">（税込）</span>
                     </div>
                 </div>
@@ -32,12 +32,12 @@
                     </div>
                 </div>
                 <div class="item_link">
-                    <a href="/" class="item_purchase">購入手続きへ</a>
+                    <a href="/purchase/{{ $item->id}}" class="item_purchase">購入手続きへ</a>
                 </div>
                 <div class="item_infomation">
                     <span class="infommation_ttl">商品説明</span>
                     <p class="infomation_description">
-                        ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ入間美兎ああああああああああああああああああああああああああああああああああああああああああああキボイルあああああああああああああああああああああああ
+                    {{ $item->description }}
                     </p>
                     <span class="infommation_ttl">商品の情報</span>
                     <div class="categories">
@@ -49,7 +49,7 @@
                     </div>
                     <div class="conditions">
                         <span class="ttl">商品の状態</span>
-                        <span class="conditions_condition">良好</span>
+                        <span class="conditions_condition">{{ $item->condition }}</span>
                     </div>
                     <div class="infomation_comments">
                         <span class="comments_count">コメント(1)</span>

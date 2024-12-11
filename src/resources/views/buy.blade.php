@@ -10,10 +10,10 @@
         <div class="buy_content_innner">
             <div class="infomation">
                 <div class="infomation_item">
-                    <img src="{{ asset('storage/miu.png') }}" alt="" class="item_image">
+                    <img src="{{ asset('storage/' . $item->item_image) }}" alt="" class="item_image">
                     <div class="item_names">
-                        <p class="item_name">商品名</p>
-                        <p class="item_price">￥47,000</p>
+                        <p class="item_name">{{ $item->item_name }}</p>
+                        <p class="item_price">￥{{ $item->price }}</p>
                     </div>
                 </div>
                 <div class="infomation_payment">
@@ -39,7 +39,7 @@
                 <table class="confirmation_table">
                     <tr>
                         <th>商品代金</th>
-                        <td>￥47,000</td>
+                        <td>￥{{ $item->price }}</td>
                     </tr>
                     <tr>
                         <th>支払い方法</th>

@@ -13,9 +13,9 @@
     <div class="list_content-products">
         @foreach ($items as $item)
             <div class="product">
-                <a href="/item/{{$item->id}}" class="product-link"></a>
+                <a href="/item/{{$item->id}}" class="product-link">
                 <img src="{{ asset('storage/' . $item->item_image) }}" alt="item" class="product_img">
-                <p class="product_name">{{ $item->item_name }}</p>
+                <p class="product_name">{{ $item->item_name }}</p></a>
             </div>
         @endforeach
     </div>

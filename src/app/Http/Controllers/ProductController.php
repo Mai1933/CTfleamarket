@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -30,9 +31,10 @@ class ProductController extends Controller
         return view('detail',compact('item','categories'));
     }
 
-    public function buy()
+    public function buy($item_id)
     {
-        return view('buy');
+        $item = Item::find($item_id);
+        return view('buy',compact('item'));
     }
 
     public function address()
