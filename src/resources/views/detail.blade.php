@@ -37,6 +37,9 @@
                 <div class="item_infomation">
                     <span class="infommation_ttl">商品説明</span>
                     <p class="infomation_description">
+                        カラー：{{ $item->color }}
+                    </p>
+                    <p class="infomation_description">
                     {{ $item->description }}
                     </p>
                     <span class="infommation_ttl">商品の情報</span>
