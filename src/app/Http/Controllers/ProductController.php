@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Actions\Fortify\CreateNewUser;
+use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 
 class ProductController extends Controller
 {
@@ -56,4 +59,16 @@ class ProductController extends Controller
     {
         return view('edit');
     }
+
+    protected $createNewUser;
+
+    // public function __construct(CreateNewUser $createNewUser)
+    // {
+    //     $this->createNewUser = $createNewUser;
+    // }
+
+    // public function store(RegisterRequest $request) {
+    //     $user = $this->createNewUser->create($request->validated());
+
+    //     return response()->json($user); }
 }

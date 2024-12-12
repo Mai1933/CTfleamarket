@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('item_name');
             $table->string('item_image');
             $table->string('brand');
+            $table->string('color')->nullable();
             $table->text('description');
             $table->string('condition');
             $table->integer('price');

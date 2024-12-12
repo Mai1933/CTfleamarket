@@ -1,11 +1,3 @@
-.css-xwws3d.ant-app.h-full {
-    display: none;
-}
-
-* {
-    height: auto;
-}
-
 .register_content {
     width: 100%;
     margin-top: 170px;
@@ -70,4 +62,10 @@
     color: #0073CC;
     font-size: 20px;
     text-decoration: none;
+    cursor: pointer;
+}
+
+.input_error_message {
+    color: #F55;
+    list-style: none;
 }

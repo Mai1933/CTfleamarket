@@ -76,6 +76,10 @@
                         <input type="text" class="bunch_input" name="brand">
                     </div>
                     <div class="input_bunch">
+                        <span class="bunch_ttl">カラー</span>
+                        <input type="text" class="bunch_input" name="color">
+                    </div>
+                    <div class="input_bunch">
                         <span class="bunch_ttl">商品の説明</span>
                         <textarea class="bunch_input-description" name="item_description"></textarea>
                     </div>

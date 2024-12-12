@@ -62,6 +62,15 @@
 .links_content {
     color: #FFF;
     font-size: 24px;
+    cursor: pointer;
+}
+
+.links_content-button {
+    background-color: #000;
+    color: #FFF;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
 }
 
 .links_sell {
