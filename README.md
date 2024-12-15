@@ -17,6 +17,7 @@
 5. php artisan migrate
 6. php artisan db:seed
 7. php artisan storage:link
+8. src/config/cpfortify.phpの内容を全てコピー、vendor/laravel/config/fortify.phpへペースト
 
 ## 使用技術
 

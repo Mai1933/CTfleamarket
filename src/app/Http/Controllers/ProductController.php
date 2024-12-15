@@ -4,10 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Category;
-use Illuminate\Http\Request;
-use App\Actions\Fortify\CreateNewUser;
-use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Routing\Controller;
+use Laravel\Fortify\Contracts\LoginResponse;
+use Illuminate\Routing\Pipeline;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\CanonicalizeUsername;
+use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
+use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
+use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
+use Laravel\Fortify\Features;
+use Laravel\Fortify\Fortify;
+
+
+
 
 class ProductController extends Controller
 {
@@ -21,23 +32,52 @@ class ProductController extends Controller
         return view('auth.login');
     }
 
+    public function loginStore(LoginRequest $request)
+    {
+        return $this->loginPipeline($request)->then(function ($request) {
+            return app(LoginResponse::class);
+        });
+    }
+
+    protected function loginPipeline(LoginRequest $request)
+    {
+        if (Fortify::$authenticateThroughCallback) {
+            return (new Pipeline(app()))->send($request)->through(array_filter(
+                call_user_func(Fortify::$authenticateThroughCallback, $request)
+            ));
+        }
+
+        if (is_array(config('fortify.pipelines.login'))) {
+            return (new Pipeline(app()))->send($request)->through(array_filter(
+                config('fortify.pipelines.login')
+            ));
+        }
+
+        return (new Pipeline(app()))->send($request)->through(array_filter([
+            config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
+            config('fortify.lowercase_usernames') ? CanonicalizeUsername::class : null,
+            Features::enabled(Features::twoFactorAuthentication()) ? RedirectIfTwoFactorAuthenticatable::class : null,
+            AttemptToAuthenticate::class,
+            PrepareAuthenticatedSession::class,
+        ]));
+    }
     public function list()
     {
         $items = Item::all();
-        return view('list',compact('items'));
+        return view('list', compact('items'));
     }
 
     public function detail($item_id)
     {
         $item = Item::find($item_id);
         $categories = Category::all();
-        return view('detail',compact('item','categories'));
+        return view('detail', compact('item', 'categories'));
     }
 
     public function buy($item_id)
     {
         $item = Item::find($item_id);
-        return view('buy',compact('item'));
+        return view('buy', compact('item'));
     }
 
     public function address()

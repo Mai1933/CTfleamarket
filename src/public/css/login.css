@@ -61,4 +61,12 @@
     text-decoration: none;
     }
 
+.input_error-login {
+    display: flex;
+    justify-content: center;
+}
+
+.input_error_message {
+    color: #F55;
+}
 
