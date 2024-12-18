@@ -17,7 +17,7 @@
 5. php artisan migrate
 6. php artisan db:seed
 7. php artisan storage:link
-8. src/config/cpfortify.phpの内容を全てコピー、vendor/laravel/config/fortify.phpへペースト
+8. src/config/cpfortify.php の内容を全てコピー、vendor/laravel/config/fortify.php へペースト
 
 ## 使用技術
 
@@ -33,6 +33,10 @@
 
 開発環境：http://localhost/
 phpMyAdmin:http://localhost:8080/
+mailhog:http://localhost:8025/
 
 ## 注意
-拡張機能でChatGPTのサイドバーをオンにしている場合、画面下部のボタンが押せない事象が発生することがあります。一時的に拡張機能をアンインストールすると解消します。
+
+・拡張機能で ChatGPT のサイドバーをオンにしている場合、画面下部のボタンが押せない事象が発生することがあります。一時的に拡張機能をアンインストールすると解消します。
+
+・メール認証は新規登録後のログインしている状態で行ってください。（一度ログアウトしてしまうと認証できません。）

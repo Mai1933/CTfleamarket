@@ -59,9 +59,9 @@ class FortifyServiceProvider extends ServiceProvider
                 return $user;
             }
 
-            throw ValidationException::withMessages([
-                'login' => ['ログイン情報が登録されていません。'],
-            ]);
+            // throw ValidationException::withMessages([
+            //     'login' => ['ログイン情報が登録されていません。'],
+            // ]);
         });
 
         RateLimiter::for('login', function (Request $request) {
