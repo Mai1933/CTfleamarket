@@ -18,19 +18,19 @@
         <div class="form_inputs">
             <div class="input_bunch">
                 <span class="bunch_ttl">ユーザー名</span>
-                <input type="text" class="bunch_input" name="user_name">
+                <input type="text" class="bunch_input" name="name" value="{{ $user->name }}">
             </div>
             <div class="input_bunch">
                 <span class="bunch_ttl">郵便番号</span>
-                <input type="text" class="bunch_input" name="postcode">
+                <input type="text" class="bunch_input" name="postcode" value="{{ $user->postcode }}">
             </div>
             <div class="input_bunch">
                 <span class="bunch_ttl">住所</span>
-                <input type="text" class="bunch_input" name="address">
+                <input type="text" class="bunch_input" name="address" value="{{ $user->address }}">
             </div>
             <div class="input_bunch">
                 <span class="bunch_ttl">建物名</span>
-                <input type="text" class="bunch_input" name="building">
+                <input type="text" class="bunch_input" name="building" value="{{ $user->building }}">
             </div>
         </div>
         <button type="submit" class="form_submit">更新する</button>
