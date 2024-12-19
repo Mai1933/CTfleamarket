@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\CheckEmailVerified;
+use App\Http\Requests\ExhibitionRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Category;
 use App\Models\User;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\AddressRequest;
+use App\Http\Requests\ProfileRequest;
 use Illuminate\Routing\Controller;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Illuminate\Routing\Pipeline;
@@ -17,15 +20,12 @@ use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use App\Http\Responses\RegisterResponse;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Contracts\Auth\StatefulGuard;
-
 
 
 class ProductController extends Controller
@@ -98,7 +98,6 @@ class ProductController extends Controller
             config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
             config('fortify.lowercase_usernames') ? CanonicalizeUsername::class : null,
             Features::enabled(Features::twoFactorAuthentication()) ? RedirectIfTwoFactorAuthenticatable::class : null,
-            CheckEmailVerified::class,
             AttemptToAuthenticate::class,
             PrepareAuthenticatedSession::class,
         ]));
@@ -129,12 +128,14 @@ class ProductController extends Controller
 
     public function sell()
     {
-        return view('sell');
+        $categories = Category::all();
+        return view('sell', compact('categories'));
     }
 
     public function profile()
     {
-        return view('profile');
+        $user = Auth::user();
+        return view('profile', compact('user'));
     }
 
     public function edit()
@@ -142,5 +143,56 @@ class ProductController extends Controller
         $user = Auth::user();
         return view('edit', compact('user'));
     }
+
+    public function profileUpdate(ProfileRequest $profileRequest, AddressRequest $addressRequest)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['login' => 'ユーザーが認証されていません。']);
+        }
+
+        if ($profileRequest->hasFile('user_image')) {
+            $image = $profileRequest->file('user_image');
+            $imageName = $image->getClientOriginalName();
+            $image->storeAs('user_image', $imageName, 'public');
+            $user->user_image = $imageName;
+        }
+
+        $user->name = $addressRequest->name;
+        $user->postcode = $addressRequest->postcode;
+        $user->address = $addressRequest->address;
+        $user->building = $addressRequest->building;
+
+        $user->save();
+
+        return redirect('/mypage');
+    }
+
+    public function sellItem(ExhibitionRequest $request)
+    {
+        $user = Auth::user();
+        $item = new Item();
+
+        $image = $request->file('item_image');
+        $imageName = $image->getClientOriginalName();
+        $image->storeAs('item_image', $imageName, 'public');
+
+        $item->item_image = $imageName;
+        $item->name = $request->item_name;
+        $item->brand = $request->brand;
+        $item->color = $request->color;
+        $item->description = $request->description;
+        $item->condition = $request->condition;
+        $item->price = $request->price;
+        $item->status = 'stock';
+        $item->user_id = $user->id;
+
+        $item->store();
+        $item->categories()->sync($request->category);
+
+        return redirect('list');
+
+    }
+
 
 }

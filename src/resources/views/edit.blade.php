@@ -6,12 +6,23 @@
 
 @section('content')
 <div class="edit_content">
-    <form class="edit_form" enctype="multipart/form-data">
+    <form class="edit_form" enctype="multipart/form-data" action="/mypage/profile" method="POST">
+        @csrf
+        @method('PUT')
         <h2 class="form_ttl">プロフィール設定</h2>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="form_images">
-            <img src="{{ asset('storage/miu.png')}}" alt="icon" class="image_icon">
+            <img src="{{ asset('storage/user_image/' . $user->user_image) }}" alt="icon" class="image_icon">
             <div class="image_uploads">
-                <input type="file" class="image_upload" id="image_upload">
+                <input type="file" class="image_upload" id="image_upload" name="user_image">
                 <label class="custom_button" for="image_upload">画像を選択する</label>
             </div>
         </div>
@@ -36,3 +47,4 @@
         <button type="submit" class="form_submit">更新する</button>
     </form>
 </div>
+@endsection

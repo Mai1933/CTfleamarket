@@ -47,10 +47,14 @@ Route::get('/purchase/address', [ProductController::class, 'address']);
 
 Route::get('/sell', [ProductController::class, 'sell']);
 
+Route::put('/sell', [ProductController::class, 'sellItem'])->middleware([config('fortify.auth_middleware', 'auth') . ':' . config('fortify.guard')]);
+
 Route::get('/mypage', [ProductController::class, 'profile']);
 
 Route::get('/mypage/profile', [ProductController::class, 'edit']);
 
+Route::put('/mypage/profile', [ProductController::class, 'profileUpdate'])->middleware([config('fortify.auth_middleware', 'auth') . ':' . config('fortify.guard')])
+    ->name('user-profile-information.update');
 
 
 
