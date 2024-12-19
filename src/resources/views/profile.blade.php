@@ -8,8 +8,8 @@
 <div class="list_content">
     <div class="list_content-user">
         <div class="user_info">
-            <img src="{{ asset('storage/miu.png')}}" alt="user_image" class="user_image">
-            <span class="user_name">ユーザー名</span>
+            <img src="{{ asset('storage/user_image/' . $user->user_image) }}" alt="user_image" class="user_image">
+            <span class="user_name">{{ $user->name }}</span>
         </div>
         <div class="user_edit">
             <a href="/mypage/profile" class="edit_button">プロフィールを編集</a>
