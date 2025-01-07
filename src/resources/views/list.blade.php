@@ -14,7 +14,7 @@
         @foreach ($items as $item)
             <div class="product">
                 <a href="/item/{{$item->id}}" class="product-link">
-                <img src="{{ asset('storage/' . $item->item_image) }}" alt="item" class="product_img">
+                <img src="{{ asset('storage/item_image/' . $item->item_image) }}" alt="item" class="product_img">
                 <p class="product_name">{{ $item->item_name }}</p></a>
             </div>
         @endforeach

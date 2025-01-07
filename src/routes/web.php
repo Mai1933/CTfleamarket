@@ -43,11 +43,13 @@ Route::get('/item/{item_id}', [ProductController::class, 'detail']);
 
 Route::get('/purchase/{item_id}', [ProductController::class, 'buy']);
 
-Route::get('/purchase/address', [ProductController::class, 'address']);
+Route::get('/purchase/address/{item_id}', [ProductController::class, 'address']);
+
+Route::put('/purchase/address/{item_id}', [ProductController::class, 'addressStore']);
 
 Route::get('/sell', [ProductController::class, 'sell']);
 
-Route::put('/sell', [ProductController::class, 'sellItem'])->middleware([config('fortify.auth_middleware', 'auth') . ':' . config('fortify.guard')]);
+Route::post('/sell', [ProductController::class, 'sellItem'])->middleware([config('fortify.auth_middleware', 'auth') . ':' . config('fortify.guard')]);
 
 Route::get('/mypage', [ProductController::class, 'profile']);
 
