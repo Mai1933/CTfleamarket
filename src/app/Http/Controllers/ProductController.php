@@ -26,6 +26,7 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 use App\Http\Responses\RegisterResponse;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Http\Request;
 
 
 class ProductController extends Controller
@@ -117,13 +118,32 @@ class ProductController extends Controller
 
     public function buy($item_id)
     {
+        $user = Auth::user();
         $item = Item::find($item_id);
-        return view('buy', compact('item'));
+        return view('buy', compact('user', 'item'));
     }
 
-    public function address()
+    public function address($item_id)
     {
-        return view('address');
+        $user = Auth::user();
+        $item = Item::find($item_id);
+        return view('address', compact('user', 'item'));
+    }
+
+    public function addressStore(Request $request)
+    {
+        $user = Auth::user();
+        $item_id = $request->item_id;
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['login' => 'ユーザーが認証されていません。']);
+        }
+
+        $user->postcode = $request->postcode;
+        $user->address = $request->address;
+        $user->building = $request->building;
+
+        $user->save();
+        return redirect('/purchase/' . $item_id);
     }
 
     public function sell()
@@ -171,6 +191,9 @@ class ProductController extends Controller
     public function sellItem(ExhibitionRequest $request)
     {
         $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['login' => 'ユーザーが認証されていません。']);
+        }
         $item = new Item();
 
         $image = $request->file('item_image');
@@ -178,7 +201,7 @@ class ProductController extends Controller
         $image->storeAs('item_image', $imageName, 'public');
 
         $item->item_image = $imageName;
-        $item->name = $request->item_name;
+        $item->item_name = $request->item_name;
         $item->brand = $request->brand;
         $item->color = $request->color;
         $item->description = $request->description;
@@ -187,10 +210,10 @@ class ProductController extends Controller
         $item->status = 'stock';
         $item->user_id = $user->id;
 
-        $item->store();
+        $item->save();
         $item->categories()->sync($request->category);
 
-        return redirect('list');
+        return redirect('/');
 
     }
 

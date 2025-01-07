@@ -8,10 +8,18 @@
 <main>
     <div class="sell_content">
         <div class="sell_content-inner">
-            <form class="sell_form" action="/sell" method="post">
+            <form class="sell_form" action="/sell" method="post" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
                 <h2 class="form_ttl">商品の出品</h2>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="form_inputs">
                     <div class="input_bunch">
                         <span class="bunch_ttl">商品画像</span>
@@ -28,7 +36,7 @@
                         <div class="categories">
                             @foreach ($categories as $category)
                                 <input type="checkbox" id="{{$category->category_content}}" value="{{$category->id}}"
-                                    name="category" class="bunch_input-category">
+                                    name="category[]" class="bunch_input-category">
                                 <label for="{{$category->category_content}}"
                                     class="category_label">{{$category->category_content}}</label>
                             @endforeach

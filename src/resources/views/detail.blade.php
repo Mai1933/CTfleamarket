@@ -8,7 +8,7 @@
 <main>
     <div class="detail_content">
         <div class="content_image">
-            <img src="{{ asset('storage/' . $item->item_image) }}" alt="item_image" class="item_image">
+            <img src="{{ asset('storage/item_image/' . $item->item_image) }}" alt="item_image" class="item_image">
         </div>
         <div class="content_others">
             <div class="content_others_inner">
@@ -40,7 +40,7 @@
                         カラー：{{ $item->color }}
                     </p>
                     <p class="infomation_description">
-                    {{ $item->description }}
+                        {{ $item->description }}
                     </p>
                     <span class="infommation_ttl">商品の情報</span>
                     <div class="categories">
