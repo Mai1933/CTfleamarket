@@ -85,6 +85,7 @@
 .evaluation_count {
     display: flex;
     justify-content: center;
+    color: #000;
 }
 
 .item_link {
@@ -146,17 +147,21 @@
 
 .categories_inner {
     width: 55%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .categories_category {
-    width: 101.99px;
+    width: auto;
     height: 30px;
     border-radius: 15px;
     background: #D9D9D9;
     padding: 3px 5%;
     margin-right: 5%;
-    flex-wrap: wrap;
     white-space: nowrap;
+    margin-top: 10px;
 }
 
 .conditions {

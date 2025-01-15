@@ -19,10 +19,13 @@
 <body>
     <header class="header">
         <div class="logo">
-            <img src="{{ asset('storage/logo.svg') }}" alt="icon" class="logo_icon">
+            <a href="/">
+                <img src="{{ asset('storage/logo.svg') }}" alt="icon" class="logo_icon">
+            </a>
         </div>
-        <form action="" class="search">
-            <input type="text" class="search_input" placeholder="なにをお探しですか？">
+        <form action="/" method="post" class="search">
+            @csrf
+            <input type="text" class="search_input" name="keyword" placeholder="なにをお探しですか？">
         </form>
         <div class="responsive_btn">
             <div class="menu_line"></div>
