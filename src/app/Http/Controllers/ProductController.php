@@ -106,13 +106,57 @@ class ProductController extends Controller
     public function list()
     {
         $items = Item::all();
-        return view('list', compact('items'));
+        $user = Auth::user();
+        if (!$user) {
+            $favorites = collect();
+            return view('list', compact('items', 'favorites'));
+        } else {
+            //フィルター処理
+            $filterd = $items->filter(function ($item) use ($user) {
+                return $item->user_id != $user->id;
+            });
+            $items = $filterd->all();
+
+            //マイリスト処理
+            $favoritesData = $user->favorites;
+            $favoriteItemIds = $favoritesData->pluck('item_id');
+            $favorites = Item::whereIn('id', $favoriteItemIds)->get() ?? collect();
+        }
+        return view('list', compact('items', 'favorites'));
+    }
+
+    public function search(Request $request)
+    {
+        $user = Auth::user();
+        $keyword = $request->input('keyword');
+        $items = Item::where('item_name', 'like', '%' . $keyword . '%')->get();
+
+        if (!$user) {
+            $favorites = collect();
+            return view('list', compact('items', 'favorites'));
+        } else {
+            //出品したアイテムを除外
+            $filterdItems = $items->filter(function ($item) use ($user) {
+                return $item->user_id != $user->id;
+            });
+
+            //マイリスト処理
+            $favoritesData = $user->favorites;
+            $favoriteItemIds = $favoritesData->pluck('item_id');
+            $favoriteItems = $filterdItems->filter(function ($item) use ($favoriteItemIds) {
+                return $favoriteItemIds->contains($item->id);
+            });
+
+            $items = $filterdItems->all();
+            $favorites = $favoriteItems;
+        }
+        return view('list', compact('items', 'favorites'));
     }
 
     public function detail($item_id)
     {
         $item = Item::find($item_id);
-        $categories = Category::all();
+        $categories = $item->categories;
         return view('detail', compact('item', 'categories'));
     }
 
@@ -155,7 +199,12 @@ class ProductController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        return view('profile', compact('user'));
+        if (!$user) {
+            return redirect('/login');
+        } else {
+            $sellItems = Item::where('user_id', $user->id)->get() ?? collect();
+        }
+        return view('profile', compact('user', 'sellItems'));
     }
 
     public function edit()

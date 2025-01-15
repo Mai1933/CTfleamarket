@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -47,8 +48,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
-
-    /*ここはchatGPTが作ったやつ*/
     public function getEmailForVerification()
     {
         return $this->email;
@@ -66,6 +65,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasVerifiedEmail()
     {
         return !is_null($this->email_verified_at);
+    }
+
+    public function items(): BelongsToMany
+    {
+        return $this->belongsToMany(Item::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
 }
 

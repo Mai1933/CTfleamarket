@@ -23,8 +23,17 @@
                 </div>
                 <div class="item_evaluations">
                     <div class="favorite">
-                        <img src="{{ asset('storage/star.png') }}" alt="favorite" class="evaluation_icon">
-                        <span class="evaluation_count">3</span>
+                        @if ($item->is_liked_by_auth_user())
+                            <a href="/item/unlike/{{$item->id}}" class="favorite_button">
+                                <img src="{{ asset('storage/comrade.png') }}" alt="favorite" class="evaluation_icon">
+                                <span class="evaluation_count">{{ $item->favorites->count() }}</span>
+                            </a>
+                        @else
+                            <a href="/item/like/{{$item->id}}" class="favorite_button">
+                                <img src="{{ asset('storage/star.png') }}" alt="favorite" class="evaluation_icon">
+                                <span class="evaluation_count">{{ $item->favorites->count() }}</span>
+                            </a>
+                        @endif
                     </div>
                     <div class="comments">
                         <img src="{{ asset('storage/comment.png') }}" alt="comment" class="evaluation_icon">
@@ -46,8 +55,9 @@
                     <div class="categories">
                         <span class="ttl">カテゴリー</span>
                         <div class="categories_inner">
-                            <span class="categories_category">洋服</span>
-                            <span class="categories_category">メンズ</span>
+                            @foreach ($categories as $category)
+                                <span class="categories_category">{{ $category->category_content }}</span>
+                            @endforeach
                         </div>
                     </div>
                     <div class="conditions">

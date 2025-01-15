@@ -15,34 +15,28 @@
             <a href="/mypage/profile" class="edit_button">プロフィールを編集</a>
         </div>
     </div>
+
+    <input id="tab1" type="radio" name="tab_btn" checked>
+    <input id="tab2" type="radio" name="tab_btn">
+
     <div class="list_content-choice">
-        <button class="choice-sell">出品した商品</button>
-        <button class="choice-buy">購入した商品</button>
+        <label class="tab1_label" for="tab1">出品した商品</label>
+        <label class="tab2_label" for="tab2">購入した商品</label>
     </div>
-    <div class="list_content-products">
-        <div class="product">
-            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
-            <p class="product_name">商品名</p>
+    <div class="list_content-tabs">
+        <div id="panel1" class="list_content-sell">
+            @foreach ($sellItems as $sellItem)
+                <div class="product">
+                    <a href="/item/{{$sellItem->id}}" class="product-link">
+                        <img src="{{ asset('storage/item_image/' . $sellItem->item_image) }}" alt="item"
+                            class="product_img">
+                        <p class="product_name">{{ $sellItem->item_name }}</p>
+                    </a>
+                </div>
+            @endforeach
         </div>
-        <div class="product">
-            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
-            <p class="product_name">商品名</p>
-        </div>
-        <div class="product">
-            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
-            <p class="product_name">商品名</p>
-        </div>
-        <div class="product">
-            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
-            <p class="product_name">商品名</p>
-        </div>
-        <div class="product">
-            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
-            <p class="product_name">商品名</p>
-        </div>
-        <div class="product">
-            <img src="{{ asset('storage/miu.png')}}" alt="item" class="product_img">
-            <p class="product_name">商品名</p>
+        <div id="panel2" class="list_content-buy">
+            <p>購入した商品</p>
         </div>
     </div>
 </div>
