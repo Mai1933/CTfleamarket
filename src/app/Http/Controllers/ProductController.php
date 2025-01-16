@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ExhibitionRequest;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Category;
@@ -157,8 +158,25 @@ class ProductController extends Controller
     {
         $item = Item::find($item_id);
         $categories = $item->categories;
-        return view('detail', compact('item', 'categories'));
+
+        $commentData = Comment::where('item_id', $item_id)->get();
+        $comments = collect();
+        $commentNumber = count($commentData);
+
+        foreach ($commentData as $comment) {
+            $commentUser = User::find($comment->user_id);
+
+            if ($commentUser) {
+                $comments[] = [
+                    'user_name' => $commentUser->name,
+                    'user_image' => $commentUser->user_image,
+                    'content' => $comment->comment_content,
+                ];
+            }
+        }
+        return view('detail', compact('item', 'categories', 'commentNumber', 'comments'));
     }
+
 
     public function buy($item_id)
     {

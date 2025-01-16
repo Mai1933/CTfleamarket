@@ -14,6 +14,11 @@
         <label class="tab2_label" for="tab2">マイリスト</label>
     </div>
     <div class="list_content-tabs">
+        @if (session('success'))
+            <div class="success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div id="panel1" class="list_content-products">
             @foreach ($items as $item)
                 <div class="product">
@@ -32,7 +37,8 @@
                 @foreach ($favorites as $favorite)
                     <div class="product">
                         <a href="/item/{{$favorite->item_id}}" class="product-link">
-                            <img src="{{ asset('storage/item_image/' . $favorite->item_image) }}" alt="item" class="product_img">
+                            <img src="{{ asset('storage/item_image/' . $favorite->item_image) }}" alt="item"
+                                class="product_img">
                             <p class="product_name">{{ $favorite->item_name }}</p>
                         </a>
                     </div>

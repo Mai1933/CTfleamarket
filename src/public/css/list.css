@@ -22,6 +22,7 @@ input[type="radio"] {
 
 .list_content-tabs {
     border-top: 2px solid #5f5f5f;
+    padding-left: 70px;
 }
 
 .tab1_label {
