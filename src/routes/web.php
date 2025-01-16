@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Requests\EmailVerificationRequest;
@@ -46,6 +47,8 @@ Route::get('/', [ProductController::class, 'list']);
 Route::post('/', [ProductController::class, 'search']);
 
 Route::get('/item/{item_id}', [ProductController::class, 'detail']);
+
+Route::post('/comment', [CommentController::class, 'store']);
 
 Route::get('/item/like/{item_id}', [FavoriteController::class, 'like']);
 

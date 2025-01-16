@@ -37,7 +37,7 @@
                     </div>
                     <div class="comments">
                         <img src="{{ asset('storage/comment.png') }}" alt="comment" class="evaluation_icon">
-                        <span class="evaluation_count">1</span>
+                        <span class="evaluation_count">{{ $commentNumber }}</span>
                     </div>
                 </div>
                 <div class="item_link">
@@ -65,18 +65,36 @@
                         <span class="conditions_condition">{{ $item->condition }}</span>
                     </div>
                     <div class="infomation_comments">
-                        <span class="comments_count">コメント(1)</span>
+                        <span class="comments_count">コメント({{ $commentNumber }})</span>
                         <div class="comments_content">
-                            <div class="user">
-                                <img src="{{ asset('storage/miu.png') }}" alt="" class="user_image">
-                                <span class="user_name">admin</span>
-                            </div>
-                            <p class="user_comment">こちらにコメントが入ります。</p>
+                            @if ($comments->isEmpty())
+                                <p>コメントはまだありません</p>
+                            @else
+                                @foreach ($comments as $comment)
+                                    <div class="user">
+                                        <img src="{{ asset('storage/item_image/' . $comment['user_image']) }}" alt=""
+                                            class="user_image">
+                                        <span class="user_name">{{ $comment['user_name'] }}</span>
+                                    </div>
+                                    <p class="user_comment">{{ $comment['content'] }}</p>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
-                    <form action="" class="comment_form">
+                    <form action="/comment" class="comment_form" method="post">
+                        @csrf
                         <span class="form_ttl">商品へのコメント</span>
+                        @if ($errors->any())
+                            <div class="error">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <textarea name="comment" id="" class="form_input"></textarea>
+                        <input type="hidden" name="item_id" value="{{ $item->id }}">
                         <button type="submit" class="form_button">コメントを送信する</button>
                     </form>
                 </div>

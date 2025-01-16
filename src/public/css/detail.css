@@ -197,7 +197,9 @@
     margin-top: 40px;
 }
 
-.user {}
+.user {
+    margin-top: 5%;
+}
 
 .user_image {
     width: 13%;
