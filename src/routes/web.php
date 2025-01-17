@@ -60,6 +60,8 @@ Route::get('/purchase/address/{item_id}', [ProductController::class, 'address'])
 
 Route::put('/purchase/address/{item_id}', [ProductController::class, 'addressStore']);
 
+Route::post('/purchase', [ProductController::class, 'purchaseStore']);
+
 Route::get('/sell', [ProductController::class, 'sell']);
 
 Route::post('/sell', [ProductController::class, 'sellItem'])->middleware([config('fortify.auth_middleware', 'auth') . ':' . config('fortify.guard')]);

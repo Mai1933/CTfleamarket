@@ -91,9 +91,8 @@ input[type="radio"] {
 }
 
 /* Responsive style */
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 860px) {
 .list_content {
     width: 100%;
-    margin-top: 13vh;
 }
 }

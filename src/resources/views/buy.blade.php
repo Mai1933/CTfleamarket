@@ -7,7 +7,8 @@
 @section('content')
 <main>
     <div class="buy_content">
-        <div class="buy_content_innner">
+        <form action="/purchase" method="post" class="buy_content_innner">
+            @csrf
             <div class="infomation">
                 <div class="infomation_item">
                     <img src="{{ asset('storage/item_image/' . $item->item_image) }}" alt="" class="item_image">
@@ -37,25 +38,22 @@
                 </div>
             </div>
             <div class="confirmation">
-                <form action="/create-checkout-session" method="post">
-                    @csrf
-                    <input type="hidden" name="item_id" value="{{ $item->id }}">
-                    <input type="hidden" name="item_price" value="{{ $item->price }}">
-                    <input type="hidden" name="user_id" value="{{ $user->id }}">
-                    <table class="confirmation_table">
-                        <tr>
-                            <th>商品代金</th>
-                            <td>￥{{ $item->price }}</td>
-                        </tr>
-                        <tr>
-                            <th>支払い方法</th>
-                            <td id="paymentMethod">選択してください</td>
-                        </tr>
-                    </table>
-                    <button class="submit_button" type="submit">購入する</button>
-                </form>
+                <input type="hidden" name="item_id" value="{{ $item->id }}">
+                <input type="hidden" name="item_price" value="{{ $item->price }}">
+                <input type="hidden" name="user_id" value="{{ $user->id }}">
+                <table class="confirmation_table">
+                    <tr>
+                        <th>商品代金</th>
+                        <td>￥{{ $item->price }}</td>
+                    </tr>
+                    <tr>
+                        <th>支払い方法</th>
+                        <td id="paymentMethod">選択してください</td>
+                    </tr>
+                </table>
+                <button class="submit_button" type="submit">購入する</button>
             </div>
-        </div>
+        </form>
     </div>
     <script>
         function updatePaymentMethod() {
