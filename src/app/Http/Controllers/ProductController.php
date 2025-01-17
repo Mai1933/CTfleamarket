@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Purchase;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
@@ -208,6 +209,29 @@ class ProductController extends Controller
         return redirect('/purchase/' . $item_id);
     }
 
+    public function purchaseStore(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['login' => 'ユーザーが認証されていません。']);
+        }
+        $purchase = new Purchase();
+        $purchase->user_id = $user->id;
+        $purchase->item_id = $request->item_id;
+        $purchase->payment = $request->payment;
+        $purchase->postcode = $user->postcode;
+        $purchase->address = $user->address;
+        $purchase->building = $user->building;
+        $purchase->save();
+
+        $item = Item::find($request->item_id);
+        $item->status = 'sold';
+        $item->update();
+
+        $url = $item->url;
+        return redirect()->to($url);
+    }
+
     public function sell()
     {
         $categories = Category::all();
@@ -221,8 +245,15 @@ class ProductController extends Controller
             return redirect('/login');
         } else {
             $sellItems = Item::where('user_id', $user->id)->get() ?? collect();
+            $buyItemsData = Purchase::where('user_id', $user->id)->get();
+            if ($buyItemsData->isEmpty()) {
+                $buyItems = collect();
+            } else {
+                $itemIds = $buyItemsData->pluck('item_id');
+                $buyItems = Item::whereIn('id', $itemIds)->get();
+            }
         }
-        return view('profile', compact('user', 'sellItems'));
+        return view('profile', compact('user', 'sellItems', 'buyItems'));
     }
 
     public function edit()

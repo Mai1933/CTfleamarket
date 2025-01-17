@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('condition');
             $table->integer('price');
             $table->string('status');
+            $table->string('url')->nullable();
             $table->timestamps();
         });
     }

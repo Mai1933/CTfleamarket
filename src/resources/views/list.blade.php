@@ -23,7 +23,11 @@
             @foreach ($items as $item)
                 <div class="product">
                     <a href="/item/{{$item->id}}" class="product-link">
-                        <img src="{{ asset('storage/item_image/' . $item->item_image) }}" alt="item" class="product_img">
+                        @if ($item->status == 'stock')
+                            <img src="{{ asset('storage/item_image/' . $item->item_image) }}" alt="item" class="product_img">
+                        @else
+                            <img src="{{ asset('storage/sold.png') }}" alt="item" class="product_img">
+                        @endif
                         <p class="product_name">{{ $item->item_name }}</p>
                     </a>
                 </div>
@@ -37,8 +41,11 @@
                 @foreach ($favorites as $favorite)
                     <div class="product">
                         <a href="/item/{{$favorite->item_id}}" class="product-link">
-                            <img src="{{ asset('storage/item_image/' . $favorite->item_image) }}" alt="item"
-                                class="product_img">
+                            @if ($favorite->status == 'stock')
+                                <img src="{{ asset('storage/item_image/' . $favorite->item_image) }}" alt="item" class="product_img">
+                            @else
+                                <img src="{{ asset('storage/sold.png') }}" alt="item" class="product_img">
+                            @endif
                             <p class="product_name">{{ $favorite->item_name }}</p>
                         </a>
                     </div>

@@ -1,5 +1,6 @@
 .detail_content {
     width: 100%;
+    margin-top: 100px;
     padding: 10% 5%;
     display: flex;
     justify-content: space-between;
@@ -267,12 +268,22 @@
 }
 
 /* Responsive style */
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 860px) {
+    detail_content{
+        padding: 13vh;
+    }
+
     .edit_form {
         width: 55%;
     }
 
     .ttl {
         font-size: 18px;
+    }
+
+    .categories_category{
+        align-items: center;
+        margin-bottom: 10%;
+        margin-top: 0;
     }
 }

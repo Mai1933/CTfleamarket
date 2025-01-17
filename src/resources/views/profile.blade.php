@@ -36,7 +36,14 @@
             @endforeach
         </div>
         <div id="panel2" class="list_content-buy">
-            <p>購入した商品</p>
+            @foreach ($buyItems as $buyItem)
+                <div class="product">
+                    <a href="/item/{{$buyItem->id}}" class="product-link">
+                        <img src="{{ asset('storage/item_image/' . $buyItem->item_image) }}" alt="item" class="product_img">
+                        <p class="product_name">{{ $buyItem->item_name }}</p>
+                    </a>
+                </div>
+            @endforeach
         </div>
     </div>
 </div>

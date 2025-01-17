@@ -176,7 +176,7 @@ td {
 }
 
 /* Responsive style */
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 860px) {
     .edit_form {
         width: 55%;
     }
