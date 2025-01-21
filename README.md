@@ -12,30 +12,30 @@
 
 1. docker-compose exec php bash
 2. composer install
-3. .env.example ファイルから.env を作成し、環境変数を変更
- (1)DB_PORT から DB_PASSWORD までのコメントアウトを解除
- (2)以下を該当箇所へコピペ
- APP_LOCALE=ja
- APP_FALLBACK_LOCALE=ja
- APP_FAKER_LOCALE=ja_JP
+3. .env.example ファイルから.env を作成し、環境変数を変更  
+   (1)DB_PORT から DB_PASSWORD までのコメントアウトを解除  
+   (2)以下を該当箇所へコピペ  
+   APP_LOCALE=ja  
+   APP_FALLBACK_LOCALE=ja  
+   APP_FAKER_LOCALE=ja_JP
 
- MAIL_MAILER=smtp
- MAIL_HOST=mailhog
- MAIL_PORT=1025
- MAIL_USERNAME=test
- MAIL_PASSWORD=pass
- MAIL_ENCRYPTION=smtp
- MAIL_FROM_ADDRESS="test@test"
- MAIL_FROM_NAME="${APP_NAME}"
-4. php artisan key:generate
-5. php artisan migrate
-6. php artisan db:seed
+MAIL_MAILER=smtp  
+ MAIL_HOST=mailhog  
+ MAIL_PORT=1025  
+ MAIL_USERNAME=test  
+ MAIL_PASSWORD=pass  
+ MAIL_ENCRYPTION=smtp  
+ MAIL_FROM_ADDRESS="test@test"  
+ MAIL_FROM_NAME="${APP_NAME}"  
+4. php artisan key:generate  
+5. php artisan migrate  
+6. php artisan db:seed  
 7. php artisan storage:link
 
 ## 使用技術
 
-・PHP 8.3.13
-・Laravel 11.34.2
+・PHP 8.3.13  
+・Laravel 11.34.2  
 ・MySQL 8.0.40
 
 ## ER 図(表示されない場合は再読み込みしてください）
