@@ -10,11 +10,12 @@ use App\Http\Requests\RegisterRequest;
 
 class RegisterTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * @test
      * @dataProvider dataproviderValidation
      */
-    public function validationCheck(array $params, array $messages, bool $expect): void
+    public function testValidationCheck(array $params, array $messages, bool $expect): void
     {
         $request = new RegisterRequest();
         $rules = $request->rules();
@@ -105,5 +106,27 @@ class RegisterTest extends TestCase
                 false
             ],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function registerationSuccess()
+    {
+        $params = [
+            'name' => 'テストユーザー',
+            'email' => 'test@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123'
+        ];
+
+        $response = $this->post('/register', $params);
+        $response->assertStatus(302);
+        $response->assertRedirect('/login');
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'テストユーザー',
+            'email' => 'test@example.com',
+        ]);
     }
 }

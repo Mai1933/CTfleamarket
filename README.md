@@ -19,14 +19,14 @@
    APP_FALLBACK_LOCALE=ja  
    APP_FAKER_LOCALE=ja_JP
 
-MAIL_MAILER=smtp  
- MAIL_HOST=mailhog  
- MAIL_PORT=1025  
- MAIL_USERNAME=test  
- MAIL_PASSWORD=pass  
- MAIL_ENCRYPTION=smtp  
- MAIL_FROM_ADDRESS="test@test"  
- MAIL_FROM_NAME="${APP_NAME}"  
+   MAIL_MAILER=smtp  
+   MAIL_HOST=mailhog  
+   MAIL_PORT=1025  
+   MAIL_USERNAME=test  
+   MAIL_PASSWORD=pass  
+   MAIL_ENCRYPTION=smtp  
+   MAIL_FROM_ADDRESS="test@test"  
+   MAIL_FROM_NAME="${APP_NAME}"  
 4. php artisan key:generate  
 5. php artisan migrate  
 6. php artisan db:seed  

@@ -79,7 +79,6 @@ class ProductController extends Controller
         return $this->loginPipeline($request)->then(function ($request) {
             return app(LoginResponse::class);
         });
-
     }
 
 
