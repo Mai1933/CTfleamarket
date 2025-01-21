@@ -15,6 +15,6 @@ class RegisterResponse implements Responsable
      */
     public function toResponse($request)
     {
-        return Redirect::to('/mypage/profile');
+        return Redirect::to('/login');
     }
 }

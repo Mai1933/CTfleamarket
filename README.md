@@ -13,11 +13,24 @@
 1. docker-compose exec php bash
 2. composer install
 3. .env.example ファイルから.env を作成し、環境変数を変更
+ (1)DB_PORT から DB_PASSWORD までのコメントアウトを解除
+ (2)以下を該当箇所へコピペ
+ APP_LOCALE=ja
+ APP_FALLBACK_LOCALE=ja
+ APP_FAKER_LOCALE=ja_JP
+
+ MAIL_MAILER=smtp
+ MAIL_HOST=mailhog
+ MAIL_PORT=1025
+ MAIL_USERNAME=test
+ MAIL_PASSWORD=pass
+ MAIL_ENCRYPTION=smtp
+ MAIL_FROM_ADDRESS="test@test"
+ MAIL_FROM_NAME="${APP_NAME}"
 4. php artisan key:generate
 5. php artisan migrate
 6. php artisan db:seed
 7. php artisan storage:link
-8. src/config/cpfortify.php の内容を全てコピー、vendor/laravel/config/fortify.php へペースト
 
 ## 使用技術
 
@@ -38,8 +51,6 @@ mailhog:http://localhost:8025/
 ## 注意
 
 ・拡張機能で ChatGPT のサイドバーをオンにしている場合、画面下部のボタンが押せない事象が発生することがあります。一時的に拡張機能をアンインストールすると解消します。
-
-・メール認証は新規登録後のログインしている状態で行ってください。（一度ログアウトしてしまうと認証できません。）
 
 ・画像は src/storage/app/public/及び src/storage/app/public/user_image/に保存しています。
 
