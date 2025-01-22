@@ -115,16 +115,20 @@ class ProductController extends Controller
             if (empty($user->postcode) || empty($user->address) || empty($user->building)) {
                 return redirect('/mypage/profile');
             } else {
-                //フィルター処理
-                $filterd = $items->filter(function ($item) use ($user) {
+                //出品したアイテムを除外
+                $filteredItems = $items->filter(function ($item) use ($user) {
                     return $item->user_id != $user->id;
                 });
-                $items = $filterd->all();
+                $items = $filteredItems;
 
                 //マイリスト処理
                 $favoritesData = $user->favorites;
                 $favoriteItemIds = $favoritesData->pluck('item_id');
-                $favorites = Item::whereIn('id', $favoriteItemIds)->get() ?? collect();
+                $favoriteItems = Item::whereIn('id', $favoriteItemIds)->get() ?? collect();
+                $filteredFavoriteItems = $favoriteItems->filter(function ($favoriteItems) use ($user) {
+                    return $favoriteItems->user_id != $user->id;
+                });
+                $favorites = $filteredFavoriteItems;
             }
         }
         return view('list', compact('items', 'favorites'));
