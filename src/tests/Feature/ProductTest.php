@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Favorite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Item;
@@ -12,10 +13,18 @@ use App\Models\Comment;
 use App\Models\Category;
 use App\Models\Category_Item;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\CommentRequest;
+
 
 class ProductTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        session()->flush();
+    }
 
     public function testGetAllItems()
     {
@@ -352,5 +361,194 @@ class ProductTest extends TestCase
         });
 
         $this->assertEquals($item->favorites->count(), 1);
+    }
+
+    public function testFavorite()
+    {
+        $user = User::create([
+            'name' => 'test',
+            'email' => 'test@example.com',
+            'password' => bcrypt('password123'),
+            'email_verified_at' => now(),
+            'postcode' => '123-4567',
+            'address' => '東京都港区1-1-1',
+            'building' => 'テストビル',
+        ]);
+        $otherUser = User::create([
+            'name' => 'test1',
+            'email' => 'test1@example.com',
+            'password' => bcrypt('password1231'),
+            'email_verified_at' => now(),
+            'postcode' => '123-4561',
+            'address' => '東京都港区1-1-11',
+            'building' => 'テストビル1',
+        ]);
+        $this->actingAs($user);
+
+        $item = Item::factory()->create(['user_id' => $otherUser->id, 'status' => 'stock']);
+
+        $response = $this->get("/item/like/{$item->id}");
+        $this->assertDatabaseHas('favorites', [
+            'item_id' => $item->id,
+            'user_id' => $user->id,
+        ]);
+        $this->assertEquals($item->favorites->count(), 1);
+        $response->assertViewIs('detail');
+        $response->assertSee('src="' . asset('storage/comrade.png') . '"', false);
+    }
+
+    public function testCancelFavorite()
+    {
+        $user = User::create([
+            'name' => 'test',
+            'email' => 'test@example.com',
+            'password' => bcrypt('password123'),
+            'email_verified_at' => now(),
+            'postcode' => '123-4567',
+            'address' => '東京都港区1-1-1',
+            'building' => 'テストビル',
+        ]);
+        $otherUser = User::create([
+            'name' => 'test1',
+            'email' => 'test1@example.com',
+            'password' => bcrypt('password1231'),
+            'email_verified_at' => now(),
+            'postcode' => '123-4561',
+            'address' => '東京都港区1-1-11',
+            'building' => 'テストビル1',
+        ]);
+        $this->actingAs($user);
+
+        $item = Item::factory()->create(['user_id' => $otherUser->id, 'status' => 'stock']);
+
+        $this->get("/item/like/{$item->id}");
+        $response = $this->get("/item/unlike/{$item->id}");
+        $this->assertDatabaseMissing('favorites', [
+            'item_id' => $item->id,
+            'user_id' => $user->id,
+        ]);
+        $this->assertEquals($item->favorites->count(), 0);
+        $response->assertViewIs('detail');
+    }
+
+    public function testSendComments()
+    {
+        $user = User::create([
+            'name' => 'test',
+            'email' => 'test@example.com',
+            'password' => bcrypt('password123'),
+            'email_verified_at' => now(),
+            'postcode' => '123-4567',
+            'address' => '東京都港区1-1-1',
+            'building' => 'テストビル',
+        ]);
+        $otherUser = User::create([
+            'name' => 'test1',
+            'email' => 'test1@example.com',
+            'password' => bcrypt('password1231'),
+            'email_verified_at' => now(),
+            'postcode' => '123-4561',
+            'address' => '東京都港区1-1-11',
+            'building' => 'テストビル1',
+        ]);
+        $this->actingAs($user);
+        $item = Item::factory()->create(['user_id' => $otherUser->id, 'status' => 'stock']);
+        $comment = 'テストコメント';
+        $response = $this->post('/comment', [
+            'item_id' => $item->id,
+            'comment' => $comment
+        ]);
+        $this->assertDatabaseHas('comments', [
+            'item_id' => $item->id,
+            'user_id' => $user->id,
+            'comment_content' => 'テストコメント'
+        ]);
+        $response->assertViewIs('detail');
+        $response->assertViewHas('commentNumber', function ($commentNumber) {
+            return $commentNumber === 1;
+        });
+    }
+
+    public function testGuestSendComments()
+    {
+        $item = Item::factory()->create(['user_id' => 1, 'status' => 'stock']);
+        $comment = 'テストコメント';
+
+        $response = $this->post('/comment', [
+            'item_id' => $item->id,
+            'comment' => $comment
+        ]);
+        $response->assertStatus(302);
+        $response->assertRedirect(route('login'));
+        $this->assertDatabaseMissing('comments', [
+            'item_id' => $item->id,
+            'comment_content' => $comment,
+        ]);
+    }
+
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataproviderValidation')]
+    public function testCommentValidationCheck(array $params, array $messages, bool $expect): void
+    {
+        $user = User::create([
+            'name' => 'test',
+            'email' => 'test@example.com',
+            'password' => bcrypt('password123'),
+            'email_verified_at' => now(),
+            'postcode' => '123-4567',
+            'address' => '東京都港区1-1-1',
+            'building' => 'テストビル',
+        ]);
+        $otherUser = User::create([
+            'name' => 'test1',
+            'email' => 'test1@example.com',
+            'password' => bcrypt('password1231'),
+            'email_verified_at' => now(),
+            'postcode' => '123-4561',
+            'address' => '東京都港区1-1-11',
+            'building' => 'テストビル1',
+        ]);
+        $this->actingAs($user);
+        $item = Item::factory()->create(['user_id' => $otherUser->id, 'status' => 'stock']);
+
+        $request = new CommentRequest();
+        $rules = $request->rules();
+        $validator = Validator::make($params, $rules);
+        $validator = $validator->setCustomMessages($request->messages());
+        $result = $validator->passes();
+        $this->assertEquals($expect, $result);
+        $this->assertSame($messages, $validator->errors()->messages());
+    }
+    /**
+     * バリデーションチェック用データ
+     */
+    public static function dataproviderValidation()
+    {
+        return [
+            'comment null' => [
+                [
+                    'item_id' => 1,
+                    'comment' => null,
+                ],
+                [
+                    'comment' => [
+                        'コメントを入力してください。',
+                    ],
+                ],
+                false
+            ],
+            'comment over255 characters' => [
+                [
+                    'item_id' => 1,
+                    'comment' => str_repeat('a', 256),
+                ],
+                [
+                    'comment' => [
+                        '255文字以内で入力してください。',
+                    ],
+                ],
+                false
+            ],
+        ];
     }
 }

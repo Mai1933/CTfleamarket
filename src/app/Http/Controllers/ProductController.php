@@ -189,6 +189,9 @@ class ProductController extends Controller
     public function buy($item_id)
     {
         $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['login' => 'ユーザーが認証されていません。']);
+        }
         $item = Item::find($item_id);
         return view('buy', compact('user', 'item'));
     }
@@ -241,9 +244,40 @@ class ProductController extends Controller
 
     public function sell()
     {
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['login' => 'ユーザーが認証されていません。']);
+        }
         $categories = Category::all();
         return view('sell', compact('categories'));
     }
+
+    public function sellItem(ExhibitionRequest $request)
+    {
+        $user = Auth::user();
+        $item = new Item();
+
+        $image = $request->file('item_image');
+        $imageName = $image->getClientOriginalName();
+        $image->storeAs('item_image', $imageName, 'public');
+
+        $item->item_image = $imageName;
+        $item->item_name = $request->item_name;
+        $item->brand = $request->brand;
+        $item->color = $request->color;
+        $item->description = $request->description;
+        $item->condition = $request->condition;
+        $item->price = $request->price;
+        $item->status = 'stock';
+        $item->user_id = $user->id;
+
+        $item->save();
+        $item->categories()->sync($request->category);
+
+        return redirect('/');
+
+    }
+
 
     public function profile()
     {
@@ -293,34 +327,6 @@ class ProductController extends Controller
         return redirect('/mypage');
     }
 
-    public function sellItem(ExhibitionRequest $request)
-    {
-        $user = Auth::user();
-        if (!$user) {
-            return redirect()->route('login')->withErrors(['login' => 'ユーザーが認証されていません。']);
-        }
-        $item = new Item();
-
-        $image = $request->file('item_image');
-        $imageName = $image->getClientOriginalName();
-        $image->storeAs('item_image', $imageName, 'public');
-
-        $item->item_image = $imageName;
-        $item->item_name = $request->item_name;
-        $item->brand = $request->brand;
-        $item->color = $request->color;
-        $item->description = $request->description;
-        $item->condition = $request->condition;
-        $item->price = $request->price;
-        $item->status = 'stock';
-        $item->user_id = $user->id;
-
-        $item->save();
-        $item->categories()->sync($request->category);
-
-        return redirect('/');
-
-    }
 
 
 }

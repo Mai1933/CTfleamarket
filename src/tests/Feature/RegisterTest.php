@@ -11,10 +11,8 @@ use App\Http\Requests\RegisterRequest;
 class RegisterTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @test
-     * @dataProvider dataproviderValidation
-     */
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataproviderValidation')]
     public function testValidationCheck(array $params, array $messages, bool $expect): void
     {
         $request = new RegisterRequest();
@@ -108,9 +106,7 @@ class RegisterTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function registerationSuccess()
     {
         $params = [

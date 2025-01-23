@@ -50,7 +50,7 @@ Route::get('/item/{item_id}', [ProductController::class, 'detail']);
 
 Route::post('/comment', [CommentController::class, 'store']);
 
-Route::get('/item/like/{item_id}', [FavoriteController::class, 'like']);
+Route::get('/item/like/{item_id}', [FavoriteController::class, 'like'])->middleware('auth');
 
 Route::get('/item/unlike/{item_id}', [FavoriteController::class, 'unlike']);
 

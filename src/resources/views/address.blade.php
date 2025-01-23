@@ -15,7 +15,7 @@
                 <div class="input_bunch">
                     <span class="input_ttl">郵便番号</span>
                     <input type="text" class="input" name="postcode" value="{{ $user->postcode }}">
-                    <input type= "hidden" name="item_id" value="{{ $item->item_id }}">
+                    <input type="hidden" name="item_id" value="{{ $item->item_id }}">
                 </div>
                 <div class="input_bunch">
                     <span class="input_ttl">住所</span>

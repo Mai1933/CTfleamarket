@@ -26,10 +26,11 @@
    MAIL_PASSWORD=pass  
    MAIL_ENCRYPTION=smtp  
    MAIL_FROM_ADDRESS="test@test"  
-   MAIL_FROM_NAME="${APP_NAME}"  
-4. php artisan key:generate  
-5. php artisan migrate  
-6. php artisan db:seed  
+   MAIL_FROM_NAME="${APP_NAME}"
+
+4. php artisan key:generate
+5. php artisan migrate
+6. php artisan db:seed
 7. php artisan storage:link
 
 ## 使用技術
@@ -40,12 +41,12 @@
 
 ## ER 図(表示されない場合は再読み込みしてください）
 
-![ER drawio](https://github.com/user-attachments/assets/6e766371-da2c-4eac-8e34-ae9c914d20ee)
+![Image](https://github.com/user-attachments/assets/834a0450-e336-483e-a78e-0e995a0ae82b)
 
 ## URL
 
-開発環境：http://localhost/
-phpMyAdmin:http://localhost:8080/
+開発環境：http://localhost/  
+phpMyAdmin:http://localhost:8080/  
 mailhog:http://localhost:8025/
 
 ## 注意

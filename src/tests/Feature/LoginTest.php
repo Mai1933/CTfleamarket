@@ -12,10 +12,8 @@ use App\Models\User;
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @test
-     * @dataProvider dataproviderValidation
-     */
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataproviderValidation')]
     public function testValidationCheck(array $params, array $messages, bool $expect): void
     {
         $request = new LoginRequest();
@@ -60,9 +58,7 @@ class LoginTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+
     public function testWrongLogin()
     {
         $wrongUser = [
@@ -74,9 +70,7 @@ class LoginTest extends TestCase
         $response->assertSessionHasErrors(['login' => 'ログイン情報が登録されていません']);
     }
 
-    /**
-     * @test
-     */
+
     public function testLoginSuccess()
     {
         $user = User::create([
