@@ -8,7 +8,11 @@
 <div class="list_content">
     <div class="list_content-user">
         <div class="user_info">
-            <img src="{{ asset('storage/user_image/' . $user->user_image) }}" alt="user_image" class="user_image">
+            @if (empty(($user->user_image)))
+                <img src="{{ asset('storage/no_image.png') }}" alt="user_image" class="user_image">
+            @else
+                <img src="{{ asset('storage/user_image/' . $user->user_image) }}" alt="user_image" class="user_image">
+            @endif
             <span class="user_name">{{ $user->name }}</span>
         </div>
         <div class="user_edit">

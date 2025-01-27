@@ -20,7 +20,11 @@
             </div>
         @endif
         <div class="form_images">
-            <img src="{{ asset('storage/user_image/' . $user->user_image) }}" alt="icon" class="image_icon">
+            @if (empty(($user->user_image)))
+                <img src="{{ asset('storage/no_image.png') }}" alt="user_image" class="image_icon">
+            @else
+                <img src="{{ asset('storage/user_image/' . $user->user_image) }}" alt="user_image" class="image_icon">
+            @endif
             <div class="image_uploads">
                 <input type="file" class="image_upload" id="image_upload" name="user_image">
                 <label class="custom_button" for="image_upload">画像を選択する</label>

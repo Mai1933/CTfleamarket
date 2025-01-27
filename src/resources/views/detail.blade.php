@@ -72,8 +72,12 @@
                             @else
                                 @foreach ($comments as $comment)
                                     <div class="user">
-                                        <img src="{{ asset('storage/item_image/' . $comment['user_image']) }}" alt=""
-                                            class="user_image">
+                                        @if (empty($comment['user_image']))
+                                            <img src="{{ asset('storage/no_image.png') }}" alt="" class="user_image">
+                                        @else
+                                            <img src="{{ asset('storage/item_image/' . $comment['user_image']) }}" alt=""
+                                                class="user_image">
+                                        @endif
                                         <span class="user_name">{{ $comment['user_name'] }}</span>
                                     </div>
                                     <p class="user_comment">{{ $comment['content'] }}</p>
