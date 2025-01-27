@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\LoginRequest;
@@ -13,6 +12,10 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
+    // 【ログイン機能】
+    // メールアドレスが入力されていない場合、バリデーションメッセージが表示される
+    // パスワードが入力されていない場合、バリデーションメッセージが表示される
+    // 入力情報が間違っている場合、バリデーションメッセージが表示される
     #[\PHPUnit\Framework\Attributes\DataProvider('dataproviderValidation')]
     public function testValidationCheck(array $params, array $messages, bool $expect): void
     {
@@ -70,7 +73,7 @@ class LoginTest extends TestCase
         $response->assertSessionHasErrors(['login' => 'ログイン情報が登録されていません']);
     }
 
-
+    // 正しい情報が入力された場合、ログイン処理が実行される
     public function testLoginSuccess()
     {
         $user = User::create([
@@ -91,6 +94,9 @@ class LoginTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
+
+    // 【ログアウト機能】
+    // ログアウトができる
     public function testLogout()
     {
         $user = User::create([

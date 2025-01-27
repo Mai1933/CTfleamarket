@@ -16,7 +16,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\LoginResponse;
-use Illuminate\Validation\ValidationException;
 
 
 
@@ -59,9 +58,6 @@ class FortifyServiceProvider extends ServiceProvider
                 return $user;
             }
 
-            // throw ValidationException::withMessages([
-            //     'login' => ['ログイン情報が登録されていません。'],
-            // ]);
         });
 
         RateLimiter::for('login', function (Request $request) {

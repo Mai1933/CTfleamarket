@@ -8,8 +8,6 @@ use App\Models\Favorite;
 use App\Models\Item;
 use App\Models\User;
 use App\Models\Comment;
-use App\Models\Category_Item;
-use App\Models\Category;
 
 
 
@@ -41,17 +39,12 @@ class FavoriteController extends Controller
                 ];
             }
         }
-        // Favorite::create([
-        //     'item_id' => $item_id,
-        //     'user_id' => Auth::id(),
-        // ]);
 
         $favorite = new Favorite();
         $favorite->item_id = $item->id;
         $favorite->user_id = $user->id;
         $favorite->save();
 
-        // return redirect()->back();
         return view('detail', compact('item', 'categories', 'commentNumber', 'comments'));
     }
 

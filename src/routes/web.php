@@ -9,30 +9,13 @@ use Laravel\Fortify\Features;
 use Laravel\Fortify\RoutePath;
 use App\Http\Controllers\CheckoutController;
 
-
-
-
 Route::get('/register', [ProductController::class, 'register']);
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     return redirect('/login');
 })->middleware(['signed'])->name('verification.verify');
-
-
-// Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-//     $request->fulfill();
-
-//     return redirect('/login');
-// })->middleware(['auth', 'signed'])->name('verification.verify');
-
 if (Features::enabled(Features::registration())) {
-    // if ($enableViews) {
-    //     Route::get(RoutePath::for('register', '/register'), [RegisteredUserController::class, 'create'])
-    //         ->middleware(['guest:' . config('fortify.guard')])
-    //         ->name('register');
-    // }
-
     Route::post(RoutePath::for('register', '/register'), [ProductController::class, 'registerStore'])
         ->middleware(['guest:' . config('fortify.guard')])
         ->name('register.store');

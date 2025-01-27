@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 use App\Http\Requests\RegisterRequest;
@@ -12,6 +11,12 @@ class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
+    // 【会員登録機能】
+    // 名前が入力されていない場合、バリデーションメッセージが表示される
+    // パスワードが入力されていない場合、バリデーションメッセージが表示される
+    // パスワードが7文字以下の場合、バリデーションメッセージが表示される
+    // パスワードが確認用パスワードと一致しない場合、バリデーションメッセージが表示される
+    // 名前が入力されていない場合、バリデーションメッセージが表示される
     #[\PHPUnit\Framework\Attributes\DataProvider('dataproviderValidation')]
     public function testValidationCheck(array $params, array $messages, bool $expect): void
     {
@@ -106,6 +111,7 @@ class RegisterTest extends TestCase
         ];
     }
 
+    // 全ての項目が入力されている場合、会員情報が登録され、ログイン画面に遷移される
     #[\PHPUnit\Framework\Attributes\Test]
     public function registerationSuccess()
     {
