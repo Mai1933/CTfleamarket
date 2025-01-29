@@ -4,7 +4,7 @@
 
 ### Dicker ビルド
 
-1. git clone リンク
+1. [git clone リンク](git@github.com:Mai1933/CTfleamarket.git)
 2. docker-compose up -d --build
 3. ＊MySQL は、OS によって起動しない場合があるので,それぞれの PC に合わせて docker-compose.yml ファイルを編集してください。
 
@@ -14,19 +14,22 @@
 2. composer install
 3. .env.example ファイルから.env を作成し、環境変数を変更  
    (1)DB_PORT から DB_PASSWORD までのコメントアウトを解除  
-   (2)以下を該当箇所へコピペ  
-   APP_LOCALE=ja  
-   APP_FALLBACK_LOCALE=ja  
+   (2)以下を該当箇所へコピペ
+
+   ```
+   APP_LOCALE=ja
+   APP_FALLBACK_LOCALE=ja
    APP_FAKER_LOCALE=ja_JP
 
-   MAIL_MAILER=smtp  
-   MAIL_HOST=mailhog  
-   MAIL_PORT=1025  
-   MAIL_USERNAME=test  
-   MAIL_PASSWORD=pass  
-   MAIL_ENCRYPTION=smtp  
-   MAIL_FROM_ADDRESS="test@test"  
+   MAIL_MAILER=smtp
+   MAIL_HOST=mailhog
+   MAIL_PORT=1025
+   MAIL_USERNAME=test
+   MAIL_PASSWORD=pass
+   MAIL_ENCRYPTION=smtp
+   MAIL_FROM_ADDRESS="test@test"
    MAIL_FROM_NAME="${APP_NAME}"
+   ```
 
 4. php artisan key:generate
 5. php artisan migrate
