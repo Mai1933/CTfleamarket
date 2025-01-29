@@ -4,8 +4,18 @@
 
 ### Dicker ビルド
 
-1. [git clone リンク](git@github.com:Mai1933/CTfleamarket.git)
-2. docker-compose up -d --build
+1. clone
+
+```
+git clone git@github.com:Mai1933/CTfleamarket.git
+```
+
+2. docker 立ち上げ
+
+```
+docker-compose up -d --build
+```
+
 3. ＊MySQL は、OS によって起動しない場合があるので,それぞれの PC に合わせて docker-compose.yml ファイルを編集してください。
 
 ### Laravel 環境構築
