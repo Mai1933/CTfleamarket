@@ -73,7 +73,7 @@ class ItemsTableSeeder extends Seeder
         ];
         DB::table('items')->insert($param);
         $param = [
-            'user_id' => 0,
+            'user_id' => 1,
             'item_name' => 'マイク',
             'item_image' => 'mike.png',
             'brand' => 'AKG',
@@ -85,7 +85,7 @@ class ItemsTableSeeder extends Seeder
         ];
         DB::table('items')->insert($param);
         $param = [
-            'user_id' => 0,
+            'user_id' => 1,
             'item_name' => 'ショルダーバッグ',
             'item_image' => 'bag.png',
             'brand' => 'バレンシアガ',
@@ -97,7 +97,7 @@ class ItemsTableSeeder extends Seeder
         ];
         DB::table('items')->insert($param);
         $param = [
-            'user_id' => 0,
+            'user_id' => 1,
             'item_name' => 'タンブラー',
             'item_image' => 'cup.png',
             'brand' => 'スターバックス',
@@ -109,7 +109,7 @@ class ItemsTableSeeder extends Seeder
         ];
         DB::table('items')->insert($param);
         $param = [
-            'user_id' => 0,
+            'user_id' => 1,
             'item_name' => 'コーヒーミル',
             'item_image' => 'coffeemill.png',
             'brand' => 'カリタ',
@@ -121,7 +121,7 @@ class ItemsTableSeeder extends Seeder
         ];
         DB::table('items')->insert($param);
         $param = [
-            'user_id' => 0,
+            'user_id' => 1,
             'item_name' => 'メイクセット',
             'item_image' => 'makeuptool.png',
             'brand' => '資生堂',
