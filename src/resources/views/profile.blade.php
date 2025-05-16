@@ -13,7 +13,10 @@
                 @else
                     <img src="{{ asset('storage/user_image/' . $user->user_image) }}" alt="user_image" class="user_image">
                 @endif
-                <span class="user_name">{{ $user->name }}</span>
+                <div class="user_info-basic">
+                    <span class="user_name">{{ $user->name }}</span>
+                    <img src="{{ asset('storage/evaluation_stars.png') }}" alt="" class="user_stars">
+                </div>
             </div>
             <div class="user_edit">
                 <a href="/mypage/profile" class="edit_button">プロフィールを編集</a>
@@ -27,7 +30,8 @@
         <div class="list_content-choice">
             <label class="tab1_label" for="tab1">出品した商品</label>
             <label class="tab2_label" for="tab2">購入した商品</label>
-            <label class="tab3_label" for="tab3">取引中の商品
+            <label class="tab3_label" for="tab3">
+                <p class="tab3_label-content">取引中の商品</p>
                 <p class="tab3_label-messages">2</p>
             </label>
         </div>
@@ -55,13 +59,13 @@
             </div>
             <div id="panel3" class="list_content-trading">
                 <!-- @foreach ($buyItems as $buyItem)
-                        <div class="product">
-                            <a href="/item/{{$buyItem->id}}" class="product-link">
-                                <img src="{{ asset('storage/item_image/' . $buyItem->item_image) }}" alt="item" class="product_img">
-                                <p class="product_name">{{ $buyItem->item_name }}</p>
-                            </a>
-                        </div>
-                    @endforeach -->
+                                <div class="product">
+                                    <a href="/item/{{$buyItem->id}}" class="product-link">
+                                        <img src="{{ asset('storage/item_image/' . $buyItem->item_image) }}" alt="item" class="product_img">
+                                        <p class="product_name">{{ $buyItem->item_name }}</p>
+                                    </a>
+                                </div>
+                            @endforeach -->
                 <div class="product">
                     <a href="/item/trading" class="product-link">
                         <img src="{{ asset('storage/item_image/watch.png') }}" alt="item" class="product_img">

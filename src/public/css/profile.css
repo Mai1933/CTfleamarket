@@ -7,12 +7,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 77px;
+    margin-bottom: 60px;
 }
 
 .user_info {
     padding-left: 18%;
     width: 60%;
+    display: flex;
 }
 
 .user_image {
@@ -21,12 +22,24 @@
     border-radius: 50%;
 }
 
+.user_info-basic {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .user_name {
     color: #000;
     font-size: 36px;
     font-style: normal;
     font-weight: 700;
-    margin-left: 15%;
+    align-items: center;
+}
+
+.user_stars {
+    width: 60%;
 }
 
 .user_edit {
@@ -57,7 +70,8 @@ input[type="radio"] {
     height: 10vh;
     border-bottom: 2px solid #5f5f5f;
     display: flex;
-    padding-left: 12.4%;
+    align-items: center;
+    padding-left: 11.9%;
     appearance: none;
     border: none;
     background-color: #fff;
@@ -71,12 +85,34 @@ input[type="radio"] {
 }
 
 .tab1_label {
-    color: #000;
+    color: #5F5F5F;
 }
 
 .tab2_label {
     margin-left: 5%;
-    color: #000;
+    color: #5F5F5F;
+}
+
+.tab3_label {
+    margin-left: 5%;
+    color: #5F5F5F;
+    display: flex;
+}
+
+.tab3_label-messages {
+    margin-left: 9px;
+    margin-top: 5px;
+    color: #FFF;
+    font-size: 24px;
+    font-weight: 700;
+    border-radius: 10px;
+    background: #F00;
+    width: 27px;
+    height: 30px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #tab1:checked~.list_content-choice .tab1_label {
@@ -95,36 +131,72 @@ input[type="radio"] {
     display: flex;
 }
 
+#tab3:checked~.list_content-choice .tab3_label {
+    color: #FF0000;
+}
+
+#tab3:checked~.list_content-tabs #panel3 {
+    display: flex;
+}
+
 .list_content-tabs {
     width: 100%;
-    padding: 80px 0;
 }
 
 .list_content-sell {
-    padding-left: 70px;
-    padding-top: 79px;
+    padding-left: 11.9%;
+    padding-top: 40px;
     display: flex;
     flex-wrap: wrap;
     display: none;
 }
 
 .list_content-buy {
-    padding-left: 70px;
-    padding-top: 79px;
+    padding-left: 11.9%;
+    padding-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    display: none;
+}
+
+.list_content-trading {
+    padding-left: 11.9%;
+    padding-top: 40px;
     display: flex;
     flex-wrap: wrap;
     display: none;
 }
 
 .product {
-    width: 20%;
-    margin-right: 5%;
+    width: 18%;
+    margin-right: 6.8%;
     margin-bottom: 6vh;
+    position: relative;
 }
 
 .product_img {
     width: 100%;
     aspect-ratio: 1/1;
+}
+
+.product_messages {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    margin-left: 5px;
+    margin-top: 5px;
+    color: #FFF;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 10px;
+    background: #F00;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .product_name {
@@ -165,5 +237,13 @@ input[type="radio"] {
 .user_edit {
     padding-right: 5%;
     white-space: nowrap;
+}
+
+.product_name {
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 4px;
 }
 }

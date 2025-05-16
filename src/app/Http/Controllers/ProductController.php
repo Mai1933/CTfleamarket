@@ -76,7 +76,11 @@ class ProductController extends Controller
             return redirect()->route('login')->withErrors(['login' => 'メール認証が必要です。メールを確認してください。']);
         }
 
-        return $this->loginPipeline($request)->then(function ($request) {
+        return $this->loginPipeline($request)->then(function ($request) use ($user) {
+            if ($user->first_login) {
+                $user->update(['first_login' => false]);
+                return redirect('/mypage/profile');
+            }
             return app(LoginResponse::class);
         });
     }
@@ -112,24 +116,24 @@ class ProductController extends Controller
             $favorites = collect();
             return view('list', compact('items', 'favorites'));
         } else {
-            if (empty($user->postcode) || empty($user->address) || empty($user->building)) {
-                return redirect('/mypage/profile');
-            } else {
-                //出品したアイテムを除外
-                $filteredItems = $items->filter(function ($item) use ($user) {
-                    return $item->user_id != $user->id;
-                });
-                $items = $filteredItems;
+            // if (empty($user->postcode) || empty($user->address) || empty($user->building)) {
+            //     return redirect('/mypage/profile');
+            // } else {
+            //出品したアイテムを除外
+            $filteredItems = $items->filter(function ($item) use ($user) {
+                return $item->user_id != $user->id;
+            });
+            $items = $filteredItems;
 
-                //マイリスト処理
-                $favoritesData = $user->favorites;
-                $favoriteItemIds = $favoritesData->pluck('item_id');
-                $favoriteItems = Item::whereIn('id', $favoriteItemIds)->get() ?? collect();
-                $filteredFavoriteItems = $favoriteItems->filter(function ($favoriteItems) use ($user) {
-                    return $favoriteItems->user_id != $user->id;
-                });
-                $favorites = $filteredFavoriteItems;
-            }
+            //マイリスト処理
+            $favoritesData = $user->favorites;
+            $favoriteItemIds = $favoritesData->pluck('item_id');
+            $favoriteItems = Item::whereIn('id', $favoriteItemIds)->get() ?? collect();
+            $filteredFavoriteItems = $favoriteItems->filter(function ($favoriteItems) use ($user) {
+                return $favoriteItems->user_id != $user->id;
+            });
+            $favorites = $filteredFavoriteItems;
+            // }
         }
         return view('list', compact('items', 'favorites'));
     }
