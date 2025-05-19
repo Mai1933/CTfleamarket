@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('password'),
             'email' => '1to5@email.com',
             'email_verified_at' => now(),
+            'user_image' => 'blue.png'
         ];
         DB::table('users')->insert($param);
         $param = [
@@ -26,6 +27,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('password'),
             'email' => '6to10@email.com',
             'email_verified_at' => now(),
+            'user_image' => 'red.png'
         ];
         DB::table('users')->insert($param);
         $param = [
@@ -34,6 +36,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('password'),
             'email' => 'noitem@email.com',
             'email_verified_at' => now(),
+            'user_image' => 'no_image.png'
         ];
         DB::table('users')->insert($param);
     }

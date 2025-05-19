@@ -35,7 +35,7 @@
         </div>
         <div id="panel2" class="list_content-favorites">
             @if ($favorites->isEmpty())
-                <p class="no_favorite">　
+                <p class="no_favorite">
                 </p>
             @else
                 @foreach ($favorites as $favorite)

@@ -1,0 +1,416 @@
+.chat_content {
+    width: 100%;
+    display: flex;
+    height: 120%;
+}
+
+.chat_others {
+    width: 17%;
+    background: #868686;
+    padding-top: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.chat_others_inner {
+    width: 76%;
+}
+
+.chat_others-ttl {
+    color: #FFF;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #FFF;
+    font-family: Inter;
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-bottom: 56px;
+}
+
+.chat_others-link {
+    color: #000;
+    font-family: Inter;
+    font-size: 22px;
+    font-weight: 400;
+    border-radius: 5px;
+    background: #EEEFEB;
+    display: inline-flex;
+    padding: 5px auto 6px;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    width: 100%;
+    margin-bottom: 43px;
+}
+
+.chat_progressing {
+    width: 83%;
+    padding-top: 100px;
+}
+
+.chat_progressing-ttl {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 37px;
+    width: 100%;
+    border-bottom: 2px solid #5F5F5F;
+    align-items: center;
+}
+
+.partner_information {
+    display: flex;
+    align-items: center;
+    padding-left: 37px;
+    padding-bottom: 13px;
+}
+
+.partner_icon {
+    width: 80px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+}
+
+.partner_name {
+    color: #000;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.partner_complete {
+    border-radius: 30px;
+    background: #FF8282;
+    border: 1px solid #FF8282;
+    width: 172px;
+    height: 54px;
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 700;
+    align-items: center;
+}
+
+.dialog_open-inner {
+    width: 40%;
+    aspect-ratio: 60/37;
+    border-radius: 15px;
+    border: 1px solid #000;
+    background: #FDFCE6;
+}
+
+.dialog_form {}
+
+.dialog_form-ttl {
+    color: #000;
+    font-size: 35px;
+    font-weight: 400;
+    border-bottom: 1px solid #000;
+    padding-left: 23px;
+    padding-top: 18px;
+    padding-bottom: 19px;
+}
+
+.dialog_form-evaluate {
+    padding-left: 15px;
+    padding-top: 10px;
+    border-bottom: 1px solid #000;
+}
+
+.form-evaluate-message {
+    color: #868686;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.form-evaluate-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rating_input {
+    display: none;
+}
+
+.rating_label {
+    color: #D9D9D9;
+    font-size: 80px;
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+.rating_label:hover,
+.rating_label:hover ~ label,
+.rating_input:checked ~label {
+    color: #fff048;
+}
+
+.form-evaluate-button {
+    display: flex;
+    justify-content: right;
+}
+
+.button-submit {
+    margin-top: 14px;
+    color: #FFF;
+    font-size: 24px;
+    font-weight: 400;
+    border-radius: 5px;
+    background: #FF8282;
+    width: 23%;
+    aspect-ratio: 12/5;
+    align-items: center;
+    border: 1px solid #FF8282;
+}
+
+.chat_progressing-product {
+    margin-top: 13px;
+    padding-left: 37px;
+    padding-bottom: 13px;
+    border-bottom: 2px solid #5F5F5F;
+}
+
+.product_information {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.product-img {
+    width: 203px;
+    height: 206px;
+    margin-right: 40px;
+}
+
+.product_scripts {}
+
+.product-name {
+    color: #000;
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.product-price {
+    color: #000;
+    font-size: 36px;
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+.chat_progressing-conservation {
+    margin-top: 17px;
+    padding-left: 37px;
+    width: 100%;
+}
+
+.conservation-others {
+    margin-bottom: 20px;
+}
+
+.others_information {
+    display: flex;
+    align-items: center;
+}
+
+.others-image {
+    width: 60px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    margin-right: 21px;
+}
+
+.others-name {
+    color: #000;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.others_message {
+    color: #000;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 4px;
+    background: #D9D9D9;
+    width: 461px;
+    height: 60px;
+    flex-shrink: 0;
+    text-align: center;
+    padding-top: 15px;
+    margin-top: 13px;
+}
+
+.conservation-self {
+    padding-right: 37px;
+    display: grid;
+    justify-content: flex-end;
+}
+
+.self_information {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.self-image {
+    width: 60px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    margin-left: 21px;
+}
+
+.self-name {
+    color: #000;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.self_message {
+    color: #000;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 4px;
+    background: #D9D9D9;
+    width: 461px;
+    height: 60px;
+    flex-shrink: 0;
+    text-align: center;
+    padding-top: 15px;
+    margin-top: 13px;
+}
+
+.self_buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.self_buttons-link {
+    color: #5F5F5F;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 15px;
+    font-weight: 400;
+    text-decoration: none;
+    margin-right: 12px;
+    margin-left: 15px;
+}
+
+.chat_progressing-inputs {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-left: 37px;
+    margin-top: 20px;
+}
+
+.input-message {
+    width: 74.7%;
+    height: 44px;
+    flex-shrink: 0;
+    background: #FFF;
+    resize: none;
+    border-radius: 4px;
+    border: 1px solid #5F5F5F;
+    color: #7B7B7B;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 700;
+    padding-left: 12px;
+    padding-top: 8px;
+}
+
+.image-submit{
+    display: flex;
+    width: 9.4%;
+    height: 43.491px;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #F55;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 10px;
+    border: 2px solid #F55;
+    background-color: #FFF;
+    margin-left: 1.1%;
+    margin-right: 1.1%;
+}
+
+.message-submit {
+    width: 6.4%;
+    flex-shrink: 0;
+    aspect-ratio: 80/61;
+    border: none;
+}
+
+/* Responsive style */
+@media screen and (max-width: 860px) {
+.chat_content {
+    height: 150%;
+}
+
+.chat_others {
+    width: 25%;
+}
+
+.chat_others-ttl {
+    font-size: 21px;
+}
+
+.chat_progressing {
+    width: 75%;
+}
+
+.partner_name {
+    font-size: 28px;
+}
+
+.product-img {
+    width: 150px;
+    height: 150px;
+}
+
+.product-name {
+    font-size: 40px;
+}
+
+.product-price {
+    font-size: 30px;
+}
+
+.partner_complete {
+    width: 140px;
+    height: 44px;
+    font-size: 14px;
+}
+
+.dialog_open-inner {
+    width: 60%;
+    aspect-ratio: 60/37;
+}
+
+.dialog_form-ttl {
+    font-size: 30px;
+    padding-top: 5px;
+}
+
+.rating_label {
+    font-size: 70px;
+}
+
+.input-message {
+    width: 60%;
+    font-size: 18px;
+}
+
+.image-submit {
+    width: 20%;
+}
+}

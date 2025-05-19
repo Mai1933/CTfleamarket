@@ -331,6 +331,16 @@ class ProductController extends Controller
         return redirect('/mypage');
     }
 
+    public function chat($item_id)
+    {
+        $item = Item::find($item_id);
+        $user = Auth::user();
+        if (!$user) {
+            return redirect('/login');
+        }
+        $partner = User::find($item->user_id);
+        return view('chat', compact('item','user','partner'));
+    }
 
 
 }

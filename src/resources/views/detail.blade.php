@@ -42,7 +42,7 @@
                     </div>
                     <div class="item_link">
                         <a href="/purchase/{{ $item->id}}" class="item_purchase">購入手続きへ</a>
-                        <a href="" class="item_transaction">取引メッセージを送る</a>
+                        <a href="/chat/{{ $item->id }}" class="item_transaction">取引メッセージを送る</a>
                     </div>
                     <div class="item_information">
                         <span class="information_ttl">商品説明</span>

@@ -62,4 +62,4 @@ Route::post('/checkout', [CheckoutController::class, 'checkout']);
 
 Route::post('/create-checkout-session', [CheckoutController::class, 'createCheckoutSession']);
 
-
+Route::get('/chat/{item_id}', [ProductController::class, 'chat']);
