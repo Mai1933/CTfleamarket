@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('item_id');
             $table->text('message_content');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

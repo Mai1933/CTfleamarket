@@ -301,6 +301,12 @@
     margin-left: 15px;
 }
 
+.error {
+    padding-left: 37px;
+    color: #F55;
+    font-size: 18px;
+}
+
 .chat_progressing-inputs {
     display: flex;
     align-items: center;
@@ -348,6 +354,7 @@
     flex-shrink: 0;
     aspect-ratio: 80/61;
     border: none;
+    background-color: #FFF;
 }
 
 /* Responsive style */

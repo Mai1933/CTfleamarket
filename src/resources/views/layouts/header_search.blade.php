@@ -49,6 +49,7 @@
     </header>
     @yield('content')
     <script src="{{ asset('js/master.js') }}"></script>
+    <script src="{{ asset('js/message.js') }}"></script>
 </body>
 
 </html>

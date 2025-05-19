@@ -83,8 +83,20 @@
                         </span>
                     </div>
                 </div>
-                <form action="" class="chat_progressing-inputs" enctype="multipart/form-data">
-                    <textarea name="message" id="" class="input-message" placeholder="取引メッセージを記入してください"></textarea>
+                @if ($errors->any())
+                    <div class="error">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="/chat/{{ $item->id }}" class="chat_progressing-inputs" enctype="multipart/form-data"
+                    method="post" id="chat-container" data-item-id="{{ $item->id }}">
+                    @csrf
+                    <textarea name="message" id="" class="input-message"
+                        placeholder="取引メッセージを記入してください">{{ old('message') }}</textarea>
                     <input type="file" id="fileElem" name="image" style="display:none">
                     <button type="button" id="fileSelect" class="image-submit">画像を追加</button>
                     <button type="submit" class="message-submit"><img src="{{ asset('storage/inputbutton.png') }}"
@@ -103,5 +115,6 @@
             }, false);
         </script>
         <script src="{{ asset('js/modal.js') }}"></script>
+        <script src="{{ asset('js/message.js') }}"></script>
     </main>
 @endsection

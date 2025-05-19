@@ -23,6 +23,7 @@
     </a>
   </header>
   @yield('content')
+  <script src="{{ asset('js/message.js') }}"></script>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Requests\EmailVerificationRequest;
@@ -63,3 +64,5 @@ Route::post('/checkout', [CheckoutController::class, 'checkout']);
 Route::post('/create-checkout-session', [CheckoutController::class, 'createCheckoutSession']);
 
 Route::get('/chat/{item_id}', [ProductController::class, 'chat']);
+
+Route::post('/chat/{item_id}', [MessageController::class, 'messageStore']);
