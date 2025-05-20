@@ -368,7 +368,7 @@ class ProductController extends Controller
         if (!$user) {
             return redirect('/login');
         }
-        $partner = User::find($item->user_id);
+        // $partner = User::find($item->user_id);
         $transactionItems = session('transactionItems', collect());
         $otherTransactionItems = $transactionItems->where('id', '!=', $item_id);
         if (!$otherTransactionItems) {
@@ -383,7 +383,12 @@ class ProductController extends Controller
         }
         $checkedTime->created_at = now();
         $checkedTime->save();
-        return view('chat', compact('item', 'user', 'partner', 'otherTransactionItems'));
+
+        $messages = Message::where('item_id', $item_id)->orderBy('created_at', 'asc')->get();
+        $chattingId = $messages->pluck('user_id');
+        $partner = User::whereIn('id', $chattingId)->where('id', '!=', $user->id)->first();
+
+        return view('chat', compact('item', 'user', 'partner', 'otherTransactionItems', 'messages'));
     }
 
 }

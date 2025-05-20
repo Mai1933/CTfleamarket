@@ -11,10 +11,9 @@
                 <div class="chat_others_inner">
                     <p class="chat_others-ttl">その他の取引</p>
                     @foreach ($otherTransactionItems as $otherTransactionItem)
-                        <a href="/chat/{{ $otherTransactionItem->id}}" class="chat_others-link">{{ $otherTransactionItem->item_name}}</a>
+                        <a href="/chat/{{ $otherTransactionItem->id}}"
+                            class="chat_others-link">{{ $otherTransactionItem->item_name}}</a>
                     @endforeach
-                    <!-- <a href="" class="chat_others-link">商品名</a>
-                    <a href="" class="chat_others-link">商品名</a> -->
                 </div>
             </div>
             <div class="chat_progressing">
@@ -65,26 +64,32 @@
                     </a>
                 </div>
                 <div class="chat_progressing-conservation">
-                    <div class="conservation-others">
-                        <div class="others_information">
-                            <img src="{{ asset('storage/user_image/' . $partner->user_image) }}" alt="other-img"
-                                class="others-image">
-                            <p class="others-name">{{ $partner->name }}</p>
-                        </div>
-                        <p class="others_message">相手からのメッセージ</p>
-                    </div>
-                    <div class="conservation-self">
-                        <span class="self_information">
-                            <p class="self-name">{{ $user->name }}</p>
-                            <img src="{{ asset('storage/user_image/' . $user->user_image) }}" alt="self-img"
-                                class="self-image">
-                        </span>
-                        <p class="self_message">自分が送ったメッセージ</p>
-                        <span class="self_buttons">
-                            <a href="" class="self_buttons-link">編集</a>
-                            <a href="" class="self_buttons-link">削除</a>
-                        </span>
-                    </div>
+                    @foreach ($messages as $message)
+                        @if ($message->user_id === $user->id)
+                            <form action="/chat/delete/{{ $item->id }}" method="post" class="conservation-self">
+                                @csrf
+                                <span class="self_information">
+                                    <p class="self-name">{{ $user->name }}</p>
+                                    <img src="{{ asset('storage/user_image/' . $user->user_image) }}" alt="self-img"
+                                        class="self-image">
+                                </span>
+                                <p class="self_message">{{ $message->message_content }}</p>
+                                <input type="hidden" value="{{ $message->id }}" name="message_id">
+                                <span class="self_buttons">
+                                    <a href="/chat/edit/{{ $item->id }}" class="self_buttons-link">編集</a>
+                                    <button type="submit"  class="self_buttons-link">削除</button>
+                                </span>
+                            </form>
+                        @else
+                            <div class="conservation-others">
+                                <div class="others_information">
+                                    <img src="{{ asset('storage/user_image/' . $partner->user_image) }}" alt="other-img" class="others-image">
+                                    <p class="others-name">{{ $partner->name }}</p>
+                                </div>
+                                <p class="others_message">{{ $message->message_content }}</p>
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
                 @if ($errors->any())
                     <div class="error">

@@ -63,6 +63,12 @@ Route::post('/checkout', [CheckoutController::class, 'checkout']);
 
 Route::post('/create-checkout-session', [CheckoutController::class, 'createCheckoutSession']);
 
-Route::get('/chat/{item_id}', [ProductController::class, 'chat']);
+Route::get('/chat/{item_id}', [ProductController::class, 'chat'])->where('item_id', '[0-9]+');
 
-Route::post('/chat/{item_id}', [MessageController::class, 'messageStore']);
+Route::post('/chat/{item_id}', [MessageController::class, 'messageStore'])->where('item_id', '[0-9]+')->name('chat');
+
+Route::get('/chat/edit/{item_id}', [MessageController::class, 'chatEditView'])->where('item_id', '[0-9]+')->name('chat.edit');
+
+Route::post('/chat/edit/{item_id}', [MessageController::class, 'chatEdit'])->where('item_id', '[0-9]+');
+
+Route::post('/chat/delete/{item_id}', [MessageController::class, 'chatDelete'])->where('item_id', '[0-9]+');

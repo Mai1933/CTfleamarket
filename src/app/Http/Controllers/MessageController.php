@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\User;
 use App\Models\Purchase;
 use App\Models\Message;
+use App\Models\Message_Viewed_At;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
@@ -53,5 +54,49 @@ class MessageController extends Controller
         $message->save();
         return redirect('/chat/' . $item_id);
 
+    }
+
+    public function chatEditView($item_id)
+    {
+        $item = Item::find($item_id);
+        $user = Auth::user();
+        if (!$user) {
+            return redirect('/login');
+        }
+        $transactionItems = session('transactionItems', collect());
+        $otherTransactionItems = $transactionItems->where('id', '!=', $item_id);
+        if (!$otherTransactionItems) {
+            $otherTransactionItems = collect();
+        }
+
+        $checkedTime = Message_Viewed_At::where('item_id', $item_id)->where('user_id', $user->id)->first();
+        if (!$checkedTime) {
+            $checkedTime = new Message_Viewed_At();
+            $checkedTime->user_id = $user->id;
+            $checkedTime->item_id = $item_id;
+        }
+        $checkedTime->created_at = now();
+        $checkedTime->save();
+        $messages = Message::where('item_id', $item_id)->orderBy('created_at', 'asc')->get();
+        $chattingId = $messages->pluck('user_id');
+        $partner = User::whereIn('id', $chattingId)->where('id', '!=', $user->id)->first();
+
+        return view('chat_edit', compact('item', 'user', 'partner', 'otherTransactionItems', 'messages'));
+    }
+
+    public function chatEdit($item_id, Request $request)
+    {
+        $message = Message::find($request->message_id);
+        $message->message_content = $request->new_message;
+
+        $message->save();
+        return redirect()->route('chat', ['item_id' => $item_id]);
+    }
+
+    public function chatDelete($item_id,Request $request)
+    {
+        $message = Message::find($request->message_id);
+        $message->delete();
+        return redirect()->route('chat', ['item_id' => $item_id]);
     }
 }
