@@ -32,7 +32,7 @@
             <label class="tab2_label" for="tab2">購入した商品</label>
             <label class="tab3_label" for="tab3">
                 <p class="tab3_label-content">取引中の商品</p>
-                <p class="tab3_label-messages">2</p>
+                <p class="tab3_label-messages">{{ $totalNewMessages }}</p>
             </label>
         </div>
         <div class="list_content-tabs">
@@ -58,21 +58,27 @@
                 @endforeach
             </div>
             <div id="panel3" class="list_content-trading">
-                <!-- @foreach ($buyItems as $buyItem)
-                                <div class="product">
-                                    <a href="/item/{{$buyItem->id}}" class="product-link">
-                                        <img src="{{ asset('storage/item_image/' . $buyItem->item_image) }}" alt="item" class="product_img">
-                                        <p class="product_name">{{ $buyItem->item_name }}</p>
-                                    </a>
-                                </div>
-                            @endforeach -->
-                <div class="product">
+                @foreach ($transactionItems as $transactionItem)
+                    <div class="product">
+                        <a href="/chat/{{$transactionItem->id}}" class="product-link">
+                            <img src="{{ asset('storage/item_image/' . $transactionItem->item_image) }}" alt="item"
+                                class="product_img">
+                            @if($transactionItem->messagesCount === 0)
+                                <p></p>
+                            @else
+                            <p class="product_messages">{{ $transactionItem->messagesCount }}</p>
+                            @endif
+                            <p class="product_name">{{ $transactionItem->item_name }}</p>
+                        </a>
+                    </div>
+                @endforeach
+                <!-- <div class="product">
                     <a href="/item/trading" class="product-link">
                         <img src="{{ asset('storage/item_image/watch.png') }}" alt="item" class="product_img">
                         <p class="product_messages">1</p>
                         <p class="product_name">テスト</p>
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

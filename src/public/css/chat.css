@@ -34,16 +34,16 @@
     color: #000;
     font-family: Inter;
     font-size: 22px;
-    font-weight: 400;
+    font-weight: 500;
     border-radius: 5px;
     background: #EEEFEB;
     display: inline-flex;
-    padding: 5px auto 6px;
     justify-content: center;
     align-items: center;
     text-decoration: none;
     width: 100%;
     margin-bottom: 43px;
+    aspect-ratio: 5/1;
 }
 
 .chat_progressing {

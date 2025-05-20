@@ -9,6 +9,8 @@ use App\Models\Item;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Purchase;
+use App\Models\Message;
+use App\Models\Message_Viewed_At;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
@@ -285,6 +287,8 @@ class ProductController extends Controller
 
     public function profile()
     {
+        //出品商品、購入商品及び取引中の商品の取得
+        //取引メッセージがついている商品を取引中の商品とみなす
         $user = Auth::user();
         if (!$user) {
             return redirect('/login');
@@ -297,8 +301,34 @@ class ProductController extends Controller
                 $itemIds = $buyItemsData->pluck('item_id');
                 $buyItems = Item::whereIn('id', $itemIds)->get();
             }
+            $soldTransactionItems = $sellItems->filter(function ($item) {
+                return $item->messages()->exists();
+            });
+            $myMessages = Message::where('user_id', $user->id)->get();
+            $messagedItemsId = $myMessages->pluck('item_id');
+            $messagedTransactionItems = Item::whereIn('id', $messagedItemsId)->where('user_id', '!=', $user->id)->get();
+            $transactionItems = $soldTransactionItems->concat($messagedTransactionItems)->unique('id')->values();
+
+            $transactionItems->each(function ($item) use ($user) {
+                $viewedAtRecord = Message_Viewed_At::where('item_id', $item->id)->where('user_id', $user->id)->first();
+                if ($viewedAtRecord) {
+                    $viewedAt = $viewedAtRecord->created_at;
+                    $count = $item->messages()->where('user_id', '!=', $user->id)->where('created_at', '>', $viewedAt)->count();
+                } else {
+                    $count = $item->messages()->where('user_id', '!=', $user->id)->count();
+                }
+
+                $item->messagesCount = $count;
+            });
+            $transactionItems = $transactionItems->sortByDesc(function ($item) {
+                $lateMessage = $item->messages()->orderBy('created_at', 'desc')->first();
+                return $lateMessage ? $lateMessage->created_at : null;
+            })->values();
+            session(['transactionItems' => $transactionItems]);
+
+            $totalNewMessages = $transactionItems->sum('messagesCount');
         }
-        return view('profile', compact('user', 'sellItems', 'buyItems'));
+        return view('profile', compact('user', 'sellItems', 'buyItems', 'transactionItems', 'totalNewMessages'));
     }
 
     public function edit()
@@ -339,7 +369,21 @@ class ProductController extends Controller
             return redirect('/login');
         }
         $partner = User::find($item->user_id);
-        return view('chat', compact('item','user','partner'));
+        $transactionItems = session('transactionItems', collect());
+        $otherTransactionItems = $transactionItems->where('id', '!=', $item_id);
+        if (!$otherTransactionItems) {
+            $otherTransactionItems = collect();
+        }
+
+        $checkedTime = Message_Viewed_At::where('item_id', $item_id)->where('user_id', $user->id)->first();
+        if (!$checkedTime) {
+            $checkedTime = new Message_Viewed_At();
+            $checkedTime->user_id = $user->id;
+            $checkedTime->item_id = $item_id;
+        }
+        $checkedTime->created_at = now();
+        $checkedTime->save();
+        return view('chat', compact('item', 'user', 'partner', 'otherTransactionItems'));
     }
 
 }

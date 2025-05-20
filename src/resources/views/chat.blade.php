@@ -10,8 +10,11 @@
             <div class="chat_others">
                 <div class="chat_others_inner">
                     <p class="chat_others-ttl">その他の取引</p>
-                    <a href="" class="chat_others-link">商品名</a>
-                    <a href="" class="chat_others-link">商品名</a>
+                    @foreach ($otherTransactionItems as $otherTransactionItem)
+                        <a href="/chat/{{ $otherTransactionItem->id}}" class="chat_others-link">{{ $otherTransactionItem->item_name}}</a>
+                    @endforeach
+                    <!-- <a href="" class="chat_others-link">商品名</a>
+                    <a href="" class="chat_others-link">商品名</a> -->
                 </div>
             </div>
             <div class="chat_progressing">
