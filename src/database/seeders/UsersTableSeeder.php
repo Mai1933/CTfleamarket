@@ -18,7 +18,10 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('password'),
             'email' => '1to5@email.com',
             'email_verified_at' => now(),
-            'user_image' => 'blue.png'
+            'user_image' => 'blue.png',
+            'postcode' => '111-1111',
+            'address' => '東京都江戸川区',
+            'building' => '森下ビル',
         ];
         DB::table('users')->insert($param);
         $param = [
@@ -27,7 +30,10 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('password'),
             'email' => '6to10@email.com',
             'email_verified_at' => now(),
-            'user_image' => 'red.png'
+            'user_image' => 'red.png',
+            'postcode' => '111-1111',
+            'address' => '東京都江戸川区',
+            'building' => '森下ビル',
         ];
         DB::table('users')->insert($param);
         $param = [
@@ -36,7 +42,10 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('password'),
             'email' => 'noitem@email.com',
             'email_verified_at' => now(),
-            'user_image' => 'no_image.png'
+            'user_image' => 'no_image.png',
+            'postcode' => '111-1111',
+            'address' => '東京都江戸川区',
+            'building' => '森下ビル',
         ];
         DB::table('users')->insert($param);
     }

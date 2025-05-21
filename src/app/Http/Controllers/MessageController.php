@@ -33,6 +33,8 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 use App\Http\Responses\RegisterResponse;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Mail;
+use App\Mail\CompleteNotification;
 
 
 class MessageController extends Controller
@@ -132,6 +134,15 @@ class MessageController extends Controller
         }
         $evaluation->save();
 
+        if ($item->user_id === $partner->id) {
+            $seller = User::find($item->user_id);
+            Mail::to($seller->email)->send(new CompleteNotification($item, $evaluation));
+        }
+
         return redirect('/');
+    }
+
+    public function sendNotification()
+    {
     }
 }
