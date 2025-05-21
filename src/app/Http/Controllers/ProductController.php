@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Purchase;
 use App\Models\Message;
 use App\Models\Message_Viewed_At;
+use App\Models\Evaluation;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
@@ -327,8 +328,14 @@ class ProductController extends Controller
             session(['transactionItems' => $transactionItems]);
 
             $totalNewMessages = $transactionItems->sum('messagesCount');
+
+            $evaluationScores = Evaluation::where('user_id', $user->id)->avg('stars');
+            $roundedEvaluations = round($evaluationScores);
+
+            //評価がされていない人を見分ける
+            $evaluation = Evaluation::where('user_id', $user->id)->first();
         }
-        return view('profile', compact('user', 'sellItems', 'buyItems', 'transactionItems', 'totalNewMessages'));
+        return view('profile', compact('user', 'sellItems', 'buyItems', 'transactionItems', 'totalNewMessages', 'roundedEvaluations', 'evaluation'));
     }
 
     public function edit()

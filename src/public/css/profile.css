@@ -36,10 +36,37 @@
     font-style: normal;
     font-weight: 700;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .user_stars {
-    width: 60%;
+    position: relative;
+    display: inline-block;
+    height: 40px;
+    font-size: 40px;
+    width: 100%;
+}
+
+.user_stars:before,
+.user_stars:after {
+    position: absolute;
+    top: 0;
+    left: 26%;
+    content: "★★★★★";
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+}
+
+.user_stars:before {
+    color: #D9D9D9;
+}
+
+.user_stars:after {
+    color: #FFF048;
+    overflow: hidden;
+    white-space: nowrap;
+    width: calc(var(--score)*40px);
 }
 
 .user_edit {
@@ -211,7 +238,7 @@ input[type="radio"] {
 @media screen and (max-width: 851px) {
 .list_content {
     width: 100%;
-    margin-top: 13vh;
+    margin-top: 120px;
 }
 
 .list_content-user {
@@ -227,6 +254,34 @@ input[type="radio"] {
 
 .user_name {
     font-size: 24px;
+}
+
+.user_stars {
+    height: 20px;
+    font-size: 20px;
+    width: 100%;
+}
+
+.user_stars:before,
+.user_stars:after {
+    position: absolute;
+    top: 0;
+    left: 26%;
+    content: "★★★★★";
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+}
+
+.user_stars:before {
+    color: #D9D9D9;
+}
+
+.user_stars:after {
+    color: #FFF048;
+    overflow: hidden;
+    white-space: nowrap;
+    width: calc(var(--score)*20px);
 }
 
 .edit_button {

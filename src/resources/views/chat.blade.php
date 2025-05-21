@@ -90,6 +90,9 @@
                                         class="self-image">
                                 </span>
                                 <p class="self_message">{{ $message->message_content }}</p>
+                                @if ($message->image !== null)
+                                    <img src="{{ asset('storage/item_image/' . $message->image) }}" alt="" class="self_message-image">
+                                @endif
                                 <input type="hidden" value="{{ $message->id }}" name="message_id">
                                 <span class="self_buttons">
                                     <a href="/chat/edit/{{ $item->id }}" class="self_buttons-link">編集</a>
@@ -105,6 +108,9 @@
                                         <p class="others-name">{{ $partner->name }}</p>
                                     </div>
                                     <p class="others_message">{{ $message->message_content }}</p>
+                                    @if ($message->image !== null)
+                                        <img src="{{ asset('storage/item_image/' . $message->image) }}" alt="" class="others_message-image">
+                                    @endif
                                 </div>
                             @endif
                         @endif
@@ -154,7 +160,7 @@
                 @if ($isStock)
                     message.style.display = 'block';
                 @endif
-                                                                    })
+                                });
         </script>
     </main>
 @endsection
