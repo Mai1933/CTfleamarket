@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Purchase;
 use App\Models\Message;
 use App\Models\Message_Viewed_At;
+use App\Models\Evaluation;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
@@ -93,10 +94,44 @@ class MessageController extends Controller
         return redirect()->route('chat', ['item_id' => $item_id]);
     }
 
-    public function chatDelete($item_id,Request $request)
+    public function chatDelete($item_id, Request $request)
     {
         $message = Message::find($request->message_id);
         $message->delete();
         return redirect()->route('chat', ['item_id' => $item_id]);
+    }
+
+    public function evaluationStore($item_id, Request $request)
+    {
+        $user = Auth::user();
+        $item = Item::find($item_id);
+
+        $messages = Message::where('item_id', $item_id)->orderBy('created_at', 'asc')->get();
+        $chattingId = $messages->pluck('user_id');
+        $partner = User::whereIn('id', $chattingId)->where('id', '!=', $user->id)->first();
+        if ($partner === null) {
+            if ($user->id === $item->user_id) {
+                return redirect()->route('chat', ['item_id' => $item_id]);
+            } else {
+                $partner = User::find($item->user_id);
+            }
+        }
+
+        $evaluation = new Evaluation;
+        $evaluation->user_id = $partner->id;
+
+        $evaluation->stars = $request->rating;
+        if ($request->rating === null) {
+            $evaluation->stars = '0';
+        }
+
+        if ($item->user_id === $partner->id) {
+            $evaluation->evaluated_as = 'seller';
+        } else {
+            $evaluation->evaluated_as = 'buyer';
+        }
+        $evaluation->save();
+
+        return redirect('/');
     }
 }

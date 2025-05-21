@@ -72,13 +72,6 @@
                         </a>
                     </div>
                 @endforeach
-                <!-- <div class="product">
-                    <a href="/item/trading" class="product-link">
-                        <img src="{{ asset('storage/item_image/watch.png') }}" alt="item" class="product_img">
-                        <p class="product_messages">1</p>
-                        <p class="product_name">テスト</p>
-                    </a>
-                </div> -->
             </div>
         </div>
     </div>

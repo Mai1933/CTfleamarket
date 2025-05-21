@@ -18,13 +18,24 @@
             </div>
             <div class="chat_progressing">
                 <div class="chat_progressing-ttl">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="partner_information">
-                        <img src="{{ asset('storage/user_image/' . $partner->user_image) }}" alt="" class="partner_icon">
-                        <p class="partner_name">「{{ $partner->name }}」さんとの取引画面</p>
+                        <img src="{{ asset('storage/user_image/' . $seller->user_image) }}" alt="" class="partner_icon">
+                        <p class="partner_name">「{{ $seller->name }}」さんとの取引画面</p>
                     </div>
-                    <button class="partner_complete" data-dialog="#js-dialog-1">取引を完了する</button>
+                    <button class="partner_complete" data-dialog="#js-dialog-1"
+                        data-is-stock="{{ $isStock ? 'true' : 'false' }}">取引を完了する</button>
+                    <p id="evaluation-message" style="display:none; color: red;">購入完了後、評価を行ってください。</p>
                     <dialog class="dialog_open-inner" id="js-dialog-1">
-                        <form action="" class="dialog_form">
+                        <form action="/evaluate/{{ $item->id }}" class="dialog_form" method="post">
                             @csrf
                             <div class="dialog_form-ttl">
                                 <p>取引が完了しました。</p>
@@ -32,20 +43,20 @@
                             <div class="dialog_form-evaluate">
                                 <p class="form-evaluate-message">今回の取引相手はどうでしたか？</p>
                                 <div class="form-evaluate-rating">
-                                    <input class="rating_input" id="star1" name="rating" type="radio" value="1">
-                                    <label class="rating_label" for="star1">★</label>
-
-                                    <input class="rating_input" id="star2" name="rating" type="radio" value="2">
-                                    <label class="rating_label" for="star2">★</label>
-
-                                    <input class="rating_input" id="star3" name="rating" type="radio" value="3">
-                                    <label class="rating_label" for="star3">★</label>
+                                    <input class="rating_input" id="star5" name="rating" type="radio" value="5">
+                                    <label class="rating_label" for="star5">★</label>
 
                                     <input class="rating_input" id="star4" name="rating" type="radio" value="4">
                                     <label class="rating_label" for="star4">★</label>
 
-                                    <input class="rating_input" id="star5" name="rating" type="radio" value="5">
-                                    <label class="rating_label" for="star5">★</label>
+                                    <input class="rating_input" id="star3" name="rating" type="radio" value="3">
+                                    <label class="rating_label" for="star3">★</label>
+
+                                    <input class="rating_input" id="star2" name="rating" type="radio" value="2">
+                                    <label class="rating_label" for="star2">★</label>
+
+                                    <input class="rating_input" id="star1" name="rating" type="radio" value="1">
+                                    <label class="rating_label" for="star1">★</label>
                                 </div>
                             </div>
                             <div class="form-evaluate-button">
@@ -55,7 +66,7 @@
                     </dialog>
                 </div>
                 <div class="chat_progressing-product">
-                    <a href="" class="product_information">
+                    <a href="/item/{{ $item->id }}" class="product_information">
                         <img src="{{ asset('storage/item_image/' . $item->item_image) }}" alt="product" class="product-img">
                         <div class="product_scripts">
                             <p class="product-name">{{ $item->item_name }}</p>
@@ -77,17 +88,20 @@
                                 <input type="hidden" value="{{ $message->id }}" name="message_id">
                                 <span class="self_buttons">
                                     <a href="/chat/edit/{{ $item->id }}" class="self_buttons-link">編集</a>
-                                    <button type="submit"  class="self_buttons-link">削除</button>
+                                    <button type="submit" class="self_buttons-link">削除</button>
                                 </span>
                             </form>
                         @else
-                            <div class="conservation-others">
-                                <div class="others_information">
-                                    <img src="{{ asset('storage/user_image/' . $partner->user_image) }}" alt="other-img" class="others-image">
-                                    <p class="others-name">{{ $partner->name }}</p>
+                            @if ($partner !== null)
+                                <div class="conservation-others">
+                                    <div class="others_information">
+                                        <img src="{{ asset('storage/user_image/' . $partner->user_image) }}" alt="other-img"
+                                            class="others-image">
+                                        <p class="others-name">{{ $partner->name }}</p>
+                                    </div>
+                                    <p class="others_message">{{ $message->message_content }}</p>
                                 </div>
-                                <p class="others_message">{{ $message->message_content }}</p>
-                            </div>
+                            @endif
                         @endif
                     @endforeach
                 </div>
@@ -124,5 +138,18 @@
         </script>
         <script src="{{ asset('js/modal.js') }}"></script>
         <script src="{{ asset('js/message.js') }}"></script>
+        @php
+            $isStock = ($item->status === 'stock');
+        @endphp
+        <script>
+            const completeButton = document.querySelector('.partner_complete');
+            const message = document.getElementById('evaluation-message');
+
+            completeButton.addEventListener("click", () => {
+                @if ($isStock)
+                    message.style.display = 'block';
+                @endif
+                                                })
+        </script>
     </main>
 @endsection

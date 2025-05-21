@@ -209,10 +209,10 @@ class ProductController extends Controller
         return view('address', compact('user', 'item'));
     }
 
-    public function addressStore(Request $request)
+    public function addressStore($item_id, Request $request)
     {
         $user = Auth::user();
-        $item_id = $request->item_id;
+        $item_id = $item_id;
         if (!$user) {
             return redirect()->route('login')->withErrors(['login' => 'ユーザーが認証されていません。']);
         }
@@ -365,10 +365,11 @@ class ProductController extends Controller
     {
         $item = Item::find($item_id);
         $user = Auth::user();
+        $seller = User::find($item->user_id);
         if (!$user) {
             return redirect('/login');
         }
-        // $partner = User::find($item->user_id);
+
         $transactionItems = session('transactionItems', collect());
         $otherTransactionItems = $transactionItems->where('id', '!=', $item_id);
         if (!$otherTransactionItems) {
@@ -388,7 +389,13 @@ class ProductController extends Controller
         $chattingId = $messages->pluck('user_id');
         $partner = User::whereIn('id', $chattingId)->where('id', '!=', $user->id)->first();
 
-        return view('chat', compact('item', 'user', 'partner', 'otherTransactionItems', 'messages'));
+        if ($item->status === 'stock') {
+            $isStock = 'true';
+        } else {
+            $isStock = null;
+        }
+
+        return view('chat', compact('item', 'user', 'seller', 'partner', 'otherTransactionItems', 'messages', 'isStock'));
     }
 
 }
