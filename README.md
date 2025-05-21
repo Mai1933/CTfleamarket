@@ -20,8 +20,8 @@ docker-compose up -d --build
 
 ### Laravel 環境構築
 
-1. docker-compose exec php bash
-2. composer install
+1. `docker-compose exec php bash`
+2. `composer install`
 3. .env.example ファイルから.env を作成し、環境変数を変更  
    (1)DB_PORT から DB_PASSWORD までのコメントアウトを解除  
    (2)以下を該当箇所へコピペ
@@ -41,10 +41,21 @@ docker-compose up -d --build
    MAIL_FROM_NAME="${APP_NAME}"
    ```
 
-4. php artisan key:generate
-5. php artisan migrate
-6. php artisan db:seed
-7. php artisan storage:link
+4. `php artisan key:generate`
+5. `php artisan migrate`
+6. `php artisan db:seed`
+7. `php artisan storage:link`
+
+### テスト環境構築
+
+1.  `composer require phpunit/phpunit --dev`
+2.  `php artisan key:generate --env=testing`
+
+## ダミーデータ
+
+1. name:１から５出品者 email:1to5@email.com pass:password (青のアイコン)
+2. name:６から１０出品者 email:6to10@email.com pass:password (赤のアイコン)
+3. name:紐づけなし email:noitem@email.com pass:password (灰色のアイコン)
 
 ## 使用技術
 
@@ -54,7 +65,13 @@ docker-compose up -d --build
 
 ## ER 図(表示されない場合は再読み込みしてください）
 
+# before(模擬案件)
+
 ![Image](https://github.com/user-attachments/assets/834a0450-e336-483e-a78e-0e995a0ae82b)
+
+# after(Pro 入会テスト)
+
+![Image](https://github.com/user-attachments/assets/9dd39845-cfd8-4e56-8f77-546daf9c7b53)
 
 ## URL
 
@@ -78,3 +95,11 @@ mailhog:http://localhost:8025/
 //テスト内容２  
 テスト内容１及び２に関するメソッド  
 の順で表記しています。
+
+# 追記
+
+・最初の取引メッセージのやり取りに関して、商品詳細ページの「取引メッセージを送る」ボタンから該当商品の取引メッセージ画面へ遷移できます。
+
+・取引メッセージの編集に関して、「編集」ボタンを押す → 編集したいメッセージを当該メッセージ欄にて編集する →「編集」ボタンが「決定」ボタンに変化しているので、「決定」ボタンを押す　という手順で実装しています。
+
+・購入後でないとユーザーの評価ができないようにしています。一度取引メッセージ画面の商品画像をクリックし、購入手続きを行ったうえで評価を実施してください。

@@ -282,9 +282,7 @@ class ProductController extends Controller
         $item->categories()->sync($request->category);
 
         return redirect('/');
-
     }
-
 
     public function profile()
     {
