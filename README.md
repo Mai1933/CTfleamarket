@@ -53,9 +53,9 @@ docker-compose up -d --build
 
 ## ダミーデータ
 
-1. name:１から５出品者　 email:1to5@email.com　 pass:password 　(青のアイコン)
-2. name:６から１０出品者　 email:6to10@email.com　 pass:password 　(赤のアイコン)
-3. name:紐づけなし email:noitem@email.com pass:password 　(灰色のアイコン)
+1. name:１から５出品者　email:1to5@email.com　pass:password　(青のアイコン)
+2. name:６から１０出品者　email:6to10@email.com　pass:password　(赤のアイコン)
+3. name:紐づけなし　email:noitem@email.com　pass:password　(灰色のアイコン)
 
 ## 使用技術
 
