@@ -74,7 +74,12 @@
                                 </span>
                                 <form action="/chat/edit/{{ $item->id }}" method="post">
                                     @csrf
-                                    <input class="self_message-input" value="{{ $message->message_content }}" name="new_message"></input>
+                                    <input class="self_message-input" value="{{ $message->message_content }}"
+                                        name="new_message"></input>
+                                    @if ($message->image !== null)
+                                        <img src="{{ asset('storage/item_image/' . $message->image) }}" alt=""
+                                            class="self_message-image">
+                                    @endif
                                     <input type="hidden" name="message_id" value="{{ $message->id }}">
                                     <span class="self_buttons">
                                         <button type="submit" class="self_buttons-link">決定</button>
@@ -90,31 +95,12 @@
                                     <p class="others-name">{{ $partner->name }}</p>
                                 </div>
                                 <p class="others_message">{{ $message->message_content }}</p>
+                                @if ($message->image !== null)
+                                    <img src="{{ asset('storage/item_image/' . $message->image) }}" alt="" class="others_message-image">
+                                @endif
                             </div>
                         @endif
                     @endforeach
-                    <!-- <div class="conservation-others">
-                                            <div class="others_information">
-                                                <img src="{{ asset('storage/user_image/' . $partner->user_image) }}" alt="other-img"
-                                                    class="others-image">
-                                                <p class="others-name">{{ $partner->name }}</p>
-                                            </div>
-                                            <p class="others_message">相手からのメッセージ</p>
-                                        </div>
-                                        <div class="conservation-self">
-                                            <span class="self_information">
-                                                <p class="self-name">{{ $user->name }}</p>
-                                                <img src="{{ asset('storage/user_image/' . $user->user_image) }}" alt="self-img"
-                                                    class="self-image">
-                                            </span>
-                                            <form action="/chat/edit" method="post">
-                                                <input class="self_message"></input>
-                                                <span class="self_buttons">
-                                                    <button type="submit" class="self_buttons-submit">決定</button>
-                                                    <a href="" class="self_buttons-link">削除</a>
-                                                </span>
-                                            </form>
-                                        </div> -->
                 </div>
                 @if ($errors->any())
                     <div class="error">

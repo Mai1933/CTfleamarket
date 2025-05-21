@@ -28,8 +28,13 @@
                         </div>
                     @endif
                     <div class="partner_information">
-                        <img src="{{ asset('storage/user_image/' . $seller->user_image) }}" alt="" class="partner_icon">
-                        <p class="partner_name">「{{ $seller->name }}」さんとの取引画面</p>
+                        @if ($partner !== null)
+                            <img src="{{ asset('storage/user_image/' . $partner->user_image) }}" alt="" class="partner_icon">
+                            <p class="partner_name">「{{ $partner->name }}」さんとの取引画面</p>
+                        @else
+                            <img src="{{ asset('storage/user_image/' . $seller->user_image) }}" alt="" class="partner_icon">
+                            <p class="partner_name">「{{ $seller->name }}」さんとの取引画面</p>
+                        @endif
                     </div>
                     <button class="partner_complete" data-dialog="#js-dialog-1"
                         data-is-stock="{{ $isStock ? 'true' : 'false' }}">取引を完了する</button>
@@ -85,6 +90,9 @@
                                         class="self-image">
                                 </span>
                                 <p class="self_message">{{ $message->message_content }}</p>
+                                @if ($message->image !== null)
+                                    <img src="{{ asset('storage/item_image/' . $message->image) }}" alt="" class="self_message-image">
+                                @endif
                                 <input type="hidden" value="{{ $message->id }}" name="message_id">
                                 <span class="self_buttons">
                                     <a href="/chat/edit/{{ $item->id }}" class="self_buttons-link">編集</a>
@@ -100,6 +108,9 @@
                                         <p class="others-name">{{ $partner->name }}</p>
                                     </div>
                                     <p class="others_message">{{ $message->message_content }}</p>
+                                    @if ($message->image !== null)
+                                        <img src="{{ asset('storage/item_image/' . $message->image) }}" alt="" class="others_message-image">
+                                    @endif
                                 </div>
                             @endif
                         @endif
@@ -149,7 +160,7 @@
                 @if ($isStock)
                     message.style.display = 'block';
                 @endif
-                                                })
+                                });
         </script>
     </main>
 @endsection

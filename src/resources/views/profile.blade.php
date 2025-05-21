@@ -15,7 +15,11 @@
                 @endif
                 <div class="user_info-basic">
                     <span class="user_name">{{ $user->name }}</span>
-                    <img src="{{ asset('storage/evaluation_stars.png') }}" alt="" class="user_stars">
+                    @if ($evaluation !== null)
+                        <span class="user_stars" style="--score:{{ $roundedEvaluations }}"></span>
+                    @else
+                        <p>まだ評価はありません。</p>
+                    @endif
                 </div>
             </div>
             <div class="user_edit">
@@ -66,7 +70,7 @@
                             @if($transactionItem->messagesCount === 0)
                                 <p></p>
                             @else
-                            <p class="product_messages">{{ $transactionItem->messagesCount }}</p>
+                                <p class="product_messages">{{ $transactionItem->messagesCount }}</p>
                             @endif
                             <p class="product_name">{{ $transactionItem->item_name }}</p>
                         </a>
