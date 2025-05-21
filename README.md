@@ -53,9 +53,9 @@ docker-compose up -d --build
 
 ## ダミーデータ
 
-1. name:１から５出品者 email:1to5@email.com pass:password (青のアイコン)
-2. name:６から１０出品者 email:6to10@email.com pass:password (赤のアイコン)
-3. name:紐づけなし email:noitem@email.com pass:password (灰色のアイコン)
+1. name:１から５出品者　 email:1to5@email.com　 pass:password 　(青のアイコン)
+2. name:６から１０出品者　 email:6to10@email.com　 pass:password 　(赤のアイコン)
+3. name:紐づけなし email:noitem@email.com pass:password 　(灰色のアイコン)
 
 ## 使用技術
 
@@ -65,11 +65,11 @@ docker-compose up -d --build
 
 ## ER 図(表示されない場合は再読み込みしてください）
 
-# before(模擬案件)
+### before(模擬案件)
 
 ![Image](https://github.com/user-attachments/assets/834a0450-e336-483e-a78e-0e995a0ae82b)
 
-# after(Pro 入会テスト)
+### after(Pro 入会テスト)
 
 ![Image](https://github.com/user-attachments/assets/9dd39845-cfd8-4e56-8f77-546daf9c7b53)
 
@@ -96,7 +96,7 @@ mailhog:http://localhost:8025/
 テスト内容１及び２に関するメソッド  
 の順で表記しています。
 
-# 追記
+### 追記
 
 ・最初の取引メッセージのやり取りに関して、商品詳細ページの「取引メッセージを送る」ボタンから該当商品の取引メッセージ画面へ遷移できます。
 
