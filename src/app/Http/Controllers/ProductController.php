@@ -9,6 +9,8 @@ use App\Models\Item;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Purchase;
+use App\Models\Message;
+use App\Models\Message_Viewed_At;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
@@ -76,7 +78,11 @@ class ProductController extends Controller
             return redirect()->route('login')->withErrors(['login' => 'メール認証が必要です。メールを確認してください。']);
         }
 
-        return $this->loginPipeline($request)->then(function ($request) {
+        return $this->loginPipeline($request)->then(function ($request) use ($user) {
+            if ($user->first_login) {
+                $user->update(['first_login' => false]);
+                return redirect('/mypage/profile');
+            }
             return app(LoginResponse::class);
         });
     }
@@ -112,24 +118,24 @@ class ProductController extends Controller
             $favorites = collect();
             return view('list', compact('items', 'favorites'));
         } else {
-            if (empty($user->postcode) || empty($user->address) || empty($user->building)) {
-                return redirect('/mypage/profile');
-            } else {
-                //出品したアイテムを除外
-                $filteredItems = $items->filter(function ($item) use ($user) {
-                    return $item->user_id != $user->id;
-                });
-                $items = $filteredItems;
+            // if (empty($user->postcode) || empty($user->address) || empty($user->building)) {
+            //     return redirect('/mypage/profile');
+            // } else {
+            //出品したアイテムを除外
+            $filteredItems = $items->filter(function ($item) use ($user) {
+                return $item->user_id != $user->id;
+            });
+            $items = $filteredItems;
 
-                //マイリスト処理
-                $favoritesData = $user->favorites;
-                $favoriteItemIds = $favoritesData->pluck('item_id');
-                $favoriteItems = Item::whereIn('id', $favoriteItemIds)->get() ?? collect();
-                $filteredFavoriteItems = $favoriteItems->filter(function ($favoriteItems) use ($user) {
-                    return $favoriteItems->user_id != $user->id;
-                });
-                $favorites = $filteredFavoriteItems;
-            }
+            //マイリスト処理
+            $favoritesData = $user->favorites;
+            $favoriteItemIds = $favoritesData->pluck('item_id');
+            $favoriteItems = Item::whereIn('id', $favoriteItemIds)->get() ?? collect();
+            $filteredFavoriteItems = $favoriteItems->filter(function ($favoriteItems) use ($user) {
+                return $favoriteItems->user_id != $user->id;
+            });
+            $favorites = $filteredFavoriteItems;
+            // }
         }
         return view('list', compact('items', 'favorites'));
     }
@@ -203,10 +209,10 @@ class ProductController extends Controller
         return view('address', compact('user', 'item'));
     }
 
-    public function addressStore(Request $request)
+    public function addressStore($item_id, Request $request)
     {
         $user = Auth::user();
-        $item_id = $request->item_id;
+        $item_id = $item_id;
         if (!$user) {
             return redirect()->route('login')->withErrors(['login' => 'ユーザーが認証されていません。']);
         }
@@ -281,6 +287,8 @@ class ProductController extends Controller
 
     public function profile()
     {
+        //出品商品、購入商品及び取引中の商品の取得
+        //取引メッセージがついている商品を取引中の商品とみなす
         $user = Auth::user();
         if (!$user) {
             return redirect('/login');
@@ -293,8 +301,34 @@ class ProductController extends Controller
                 $itemIds = $buyItemsData->pluck('item_id');
                 $buyItems = Item::whereIn('id', $itemIds)->get();
             }
+            $soldTransactionItems = $sellItems->filter(function ($item) {
+                return $item->messages()->exists();
+            });
+            $myMessages = Message::where('user_id', $user->id)->get();
+            $messagedItemsId = $myMessages->pluck('item_id');
+            $messagedTransactionItems = Item::whereIn('id', $messagedItemsId)->where('user_id', '!=', $user->id)->get();
+            $transactionItems = $soldTransactionItems->concat($messagedTransactionItems)->unique('id')->values();
+
+            $transactionItems->each(function ($item) use ($user) {
+                $viewedAtRecord = Message_Viewed_At::where('item_id', $item->id)->where('user_id', $user->id)->first();
+                if ($viewedAtRecord) {
+                    $viewedAt = $viewedAtRecord->created_at;
+                    $count = $item->messages()->where('user_id', '!=', $user->id)->where('created_at', '>', $viewedAt)->count();
+                } else {
+                    $count = $item->messages()->where('user_id', '!=', $user->id)->count();
+                }
+
+                $item->messagesCount = $count;
+            });
+            $transactionItems = $transactionItems->sortByDesc(function ($item) {
+                $lateMessage = $item->messages()->orderBy('created_at', 'desc')->first();
+                return $lateMessage ? $lateMessage->created_at : null;
+            })->values();
+            session(['transactionItems' => $transactionItems]);
+
+            $totalNewMessages = $transactionItems->sum('messagesCount');
         }
-        return view('profile', compact('user', 'sellItems', 'buyItems'));
+        return view('profile', compact('user', 'sellItems', 'buyItems', 'transactionItems', 'totalNewMessages'));
     }
 
     public function edit()
@@ -327,6 +361,41 @@ class ProductController extends Controller
         return redirect('/mypage');
     }
 
+    public function chat($item_id)
+    {
+        $item = Item::find($item_id);
+        $user = Auth::user();
+        $seller = User::find($item->user_id);
+        if (!$user) {
+            return redirect('/login');
+        }
 
+        $transactionItems = session('transactionItems', collect());
+        $otherTransactionItems = $transactionItems->where('id', '!=', $item_id);
+        if (!$otherTransactionItems) {
+            $otherTransactionItems = collect();
+        }
+
+        $checkedTime = Message_Viewed_At::where('item_id', $item_id)->where('user_id', $user->id)->first();
+        if (!$checkedTime) {
+            $checkedTime = new Message_Viewed_At();
+            $checkedTime->user_id = $user->id;
+            $checkedTime->item_id = $item_id;
+        }
+        $checkedTime->created_at = now();
+        $checkedTime->save();
+
+        $messages = Message::where('item_id', $item_id)->orderBy('created_at', 'asc')->get();
+        $chattingId = $messages->pluck('user_id');
+        $partner = User::whereIn('id', $chattingId)->where('id', '!=', $user->id)->first();
+
+        if ($item->status === 'stock') {
+            $isStock = 'true';
+        } else {
+            $isStock = null;
+        }
+
+        return view('chat', compact('item', 'user', 'seller', 'partner', 'otherTransactionItems', 'messages', 'isStock'));
+    }
 
 }

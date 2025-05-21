@@ -110,11 +110,29 @@
     margin-top: 22px;
 }
 
-.item_infomation {
+.item_transaction {
+    display: flex;
+    width: 100%;
+    aspect-ratio: 10/1;
+    color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 25px;
+    font-weight: 700;
+    border-radius: 5px;
+    background: rgb(248, 171, 54);
+    margin-top: 30px;
+    border: rgb(248, 171, 54);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item_information {
     margin-top: 22px;
 }
 
-.infommation_ttl {
+.information_ttl {
     color: #000;
     font-family: Inter;
     font-size: 36px;
@@ -122,7 +140,7 @@
     font-weight: 700;
 }
 
-.infomation_description {
+.information_description {
     color: #000;
     font-family: Inter;
     font-size: 24px;
@@ -180,9 +198,10 @@
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
+    overflow-wrap: break-word;
 }
 
-.infomation_comments {
+.information_comments {
     margin-top: 10%;
 }
 

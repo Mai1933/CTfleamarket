@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Requests\EmailVerificationRequest;
@@ -33,15 +34,15 @@ Route::get('/item/{item_id}', [ProductController::class, 'detail']);
 
 Route::post('/comment', [CommentController::class, 'store']);
 
-Route::get('/item/like/{item_id}', [FavoriteController::class, 'like'])->middleware('auth');
+Route::get('/item/like/{item_id}', [FavoriteController::class, 'like'])->where('item_id', '[0-9]+')->middleware('auth');
 
-Route::get('/item/unlike/{item_id}', [FavoriteController::class, 'unlike']);
+Route::get('/item/unlike/{item_id}', [FavoriteController::class, 'unlike'])->where('item_id', '[0-9]+');
 
-Route::get('/purchase/{item_id}', [ProductController::class, 'buy']);
+Route::get('/purchase/{item_id}', [ProductController::class, 'buy'])->where('item_id', '[0-9]+');
 
-Route::get('/purchase/address/{item_id}', [ProductController::class, 'address']);
+Route::get('/purchase/address/{item_id}', [ProductController::class, 'address'])->where('item_id', '[0-9]+');
 
-Route::put('/purchase/address/{item_id}', [ProductController::class, 'addressStore']);
+Route::post('/purchase/address/{item_id}', [ProductController::class, 'addressStore'])->where('item_id', '[0-9]+')->name('addressStore');
 
 Route::post('/purchase', [ProductController::class, 'purchaseStore']);
 
@@ -62,4 +63,14 @@ Route::post('/checkout', [CheckoutController::class, 'checkout']);
 
 Route::post('/create-checkout-session', [CheckoutController::class, 'createCheckoutSession']);
 
+Route::get('/chat/{item_id}', [ProductController::class, 'chat'])->where('item_id', '[0-9]+');
 
+Route::post('/chat/{item_id}', [MessageController::class, 'messageStore'])->where('item_id', '[0-9]+')->name('chat');
+
+Route::get('/chat/edit/{item_id}', [MessageController::class, 'chatEditView'])->where('item_id', '[0-9]+')->name('chat.edit');
+
+Route::post('/chat/edit/{item_id}', [MessageController::class, 'chatEdit'])->where('item_id', '[0-9]+');
+
+Route::post('/chat/delete/{item_id}', [MessageController::class, 'chatDelete'])->where('item_id', '[0-9]+');
+
+Route::post('/evaluate/{item_id}', [MessageController::class, 'evaluationStore'])->where('item_id', '[0-9]+');
