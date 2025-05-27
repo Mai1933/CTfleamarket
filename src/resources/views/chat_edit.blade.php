@@ -19,8 +19,13 @@
             <div class="chat_progressing">
                 <div class="chat_progressing-ttl">
                     <div class="partner_information">
-                        <img src="{{ asset('storage/user_image/' . $partner->user_image) }}" alt="" class="partner_icon">
-                        <p class="partner_name">「{{ $partner->name }}」さんとの取引画面</p>
+                        @if ($partner !== null)
+                            <img src="{{ asset('storage/user_image/' . $partner->user_image) }}" alt="" class="partner_icon">
+                            <p class="partner_name">「{{ $partner->name }}」さんとの取引画面</p>
+                        @else
+                            <img src="{{ asset('storage/user_image/' . $seller->user_image) }}" alt="" class="partner_icon">
+                            <p class="partner_name">「{{ $seller->name }}」さんとの取引画面</p>
+                        @endif
                     </div>
                     <button class="partner_complete" data-dialog="#js-dialog-1">取引を完了する</button>
                     <dialog class="dialog_open-inner" id="js-dialog-1">

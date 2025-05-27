@@ -18,15 +18,6 @@
             </div>
             <div class="chat_progressing">
                 <div class="chat_progressing-ttl">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                     <div class="partner_information">
                         @if ($partner !== null)
                             <img src="{{ asset('storage/user_image/' . $partner->user_image) }}" alt="" class="partner_icon">
@@ -36,9 +27,11 @@
                             <p class="partner_name">「{{ $seller->name }}」さんとの取引画面</p>
                         @endif
                     </div>
-                    <button class="partner_complete" data-dialog="#js-dialog-1"
-                        data-is-stock="{{ $isStock ? 'true' : 'false' }}">取引を完了する</button>
-                    <p id="evaluation-message" style="display:none; color: red;">購入完了後、評価を行ってください。</p>
+                    <div class="evaluation_items">
+                        <button class="partner_complete" data-dialog="#js-dialog-1">取引を完了する</button>
+                        <p id="evaluation-message" style="display:none; color: red;">すでに評価を完了しています。
+                        </p>
+                    </div>
                     <dialog class="dialog_open-inner" id="js-dialog-1">
                         <form action="/evaluate/{{ $item->id }}" class="dialog_form" method="post">
                             @csrf
@@ -116,25 +109,27 @@
                         @endif
                     @endforeach
                 </div>
-                @if ($errors->any())
-                    <div class="error">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <form action="/chat/{{ $item->id }}" class="chat_progressing-inputs" enctype="multipart/form-data"
-                    method="post" id="chat-container" data-item-id="{{ $item->id }}">
-                    @csrf
-                    <textarea name="message" id="" class="input-message"
-                        placeholder="取引メッセージを記入してください">{{ old('message') }}</textarea>
-                    <input type="file" id="fileElem" name="image" style="display:none">
-                    <button type="button" id="fileSelect" class="image-submit">画像を追加</button>
-                    <button type="submit" class="message-submit"><img src="{{ asset('storage/inputbutton.png') }}"
-                            alt="submit"></button>
-                </form>
+                <div class="chat_progressing-bottoms">
+                    @if ($errors->any())
+                        <div class="error">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form action="/chat/{{ $item->id }}" class="chat_progressing-inputs" enctype="multipart/form-data"
+                        method="post" id="chat-container" data-item-id="{{ $item->id }}">
+                        @csrf
+                        <textarea name="message" id="" class="input-message"
+                            placeholder="取引メッセージを記入してください">{{ old('message') }}</textarea>
+                        <input type="file" id="fileElem" name="image" style="display:none">
+                        <button type="button" id="fileSelect" class="image-submit">画像を追加</button>
+                        <button type="submit" class="message-submit"><img src="{{ asset('storage/inputbutton.png') }}"
+                                alt="submit"></button>
+                    </form>
+                </div>
             </div>
         </div>
         <script>
@@ -147,20 +142,46 @@
                 }
             }, false);
         </script>
-        <script src="{{ asset('js/modal.js') }}"></script>
+        <!-- <script src="{{ asset('js/modal.js') }}"></script> -->
         <script src="{{ asset('js/message.js') }}"></script>
-        @php
-            $isStock = ($item->status === 'stock');
-        @endphp
         <script>
             const completeButton = document.querySelector('.partner_complete');
             const message = document.getElementById('evaluation-message');
+            const body = document.body;
+            const modal = document.querySelector("dialog");
+            const dialogOpenButtons = document.querySelectorAll(".partner_complete");
 
-            completeButton.addEventListener("click", () => {
-                @if ($isStock)
-                    message.style.display = 'block';
-                @endif
-                                });
+            const evaluationExists = @json($evaluation !== null);
+            if (evaluationExists) {
+                completeButton.addEventListener("click", () => {
+                    @if ($evaluation !== null)
+                        message.style.display = 'block';
+                    @endif
+                                            });
+            } else {
+                completeButton.addEventListener("click", () => {
+                    const dialog = document.querySelector(completeButton.dataset.dialog);
+                    dialog.showModal();
+                    document.body.style.overflow = "hidden";
+                });
+                const modals = document.querySelectorAll(".dialog_open-inner");
+                modals.forEach((modal) => {
+                    modal.addEventListener("click", (event) => {
+                        if (!event.target.closest("form") && !event.target.closest("button")) {
+                            modal.close();
+                            document.body.style.overflow = "visible";
+                        }
+                    });
+                });
+
+                modals.forEach((modal) => {
+                    modal.addEventListener("keydown", function (e) {
+                        if (e.key === "Escape") {
+                            body.style.overflow = "visible";
+                        }
+                    });
+                });
+            }
         </script>
     </main>
 @endsection

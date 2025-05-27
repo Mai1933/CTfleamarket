@@ -24,8 +24,6 @@
     width: 100%;
 }
 
-.item_names {}
-
 .item_name {
     color: #000;
     font-family: Inter;
@@ -108,24 +106,6 @@
     border-radius: 5px;
     align-items: center;
     margin-top: 22px;
-}
-
-.item_transaction {
-    display: flex;
-    width: 100%;
-    aspect-ratio: 10/1;
-    color: #FFF;
-    text-align: center;
-    font-family: Inter;
-    font-size: 25px;
-    font-weight: 700;
-    border-radius: 5px;
-    background: rgb(248, 171, 54);
-    margin-top: 30px;
-    border: rgb(248, 171, 54);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .item_information {

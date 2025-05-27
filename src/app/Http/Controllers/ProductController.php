@@ -393,14 +393,12 @@ class ProductController extends Controller
         $messages = Message::where('item_id', $item_id)->orderBy('created_at', 'asc')->get();
         $chattingId = $messages->pluck('user_id');
         $partner = User::whereIn('id', $chattingId)->where('id', '!=', $user->id)->first();
-
-        if ($item->status === 'stock') {
-            $isStock = 'true';
-        } else {
-            $isStock = null;
+        if (!$partner) {
+            $partner = $seller;
         }
+        $evaluation = Evaluation::where('item_id', $item->id)->where('user_id', $partner->id)->first();
 
-        return view('chat', compact('item', 'user', 'seller', 'partner', 'otherTransactionItems', 'messages', 'isStock'));
+        return view('chat', compact('item', 'user', 'seller', 'partner', 'otherTransactionItems', 'messages','evaluation'));
     }
 
 }

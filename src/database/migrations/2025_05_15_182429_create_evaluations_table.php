@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('item_id');
             $table->integer('stars');
             $table->string('evaluated_as');
             $table->timestamps();

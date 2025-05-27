@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Message;
 use App\Models\Message_Viewed_At;
 use App\Models\Evaluation;
+use App\Http\Requests\MessageRequest;
 use Mail;
 use App\Mail\CompleteNotification;
 
@@ -38,6 +39,7 @@ class MessageController extends Controller
     public function chatEditView($item_id)
     {
         $item = Item::find($item_id);
+        $seller = User::find($item->user_id);
         $user = Auth::user();
         if (!$user) {
             return redirect('/login');
@@ -60,7 +62,7 @@ class MessageController extends Controller
         $chattingId = $messages->pluck('user_id');
         $partner = User::whereIn('id', $chattingId)->where('id', '!=', $user->id)->first();
 
-        return view('chat_edit', compact('item', 'user', 'partner', 'otherTransactionItems', 'messages'));
+        return view('chat_edit', compact('item', 'user', 'partner', 'otherTransactionItems', 'messages', 'seller'));
     }
 
     public function chatEdit($item_id, Request $request)
@@ -97,6 +99,7 @@ class MessageController extends Controller
 
         $evaluation = new Evaluation;
         $evaluation->user_id = $partner->id;
+        $evaluation->item_id = $item->id;
 
         $evaluation->stars = $request->rating;
         if ($request->rating === null) {
@@ -116,5 +119,6 @@ class MessageController extends Controller
         }
 
         return redirect('/');
+
     }
 }

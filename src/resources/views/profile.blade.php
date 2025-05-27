@@ -54,7 +54,7 @@
             <div id="panel2" class="list_content-buy">
                 @foreach ($buyItems as $buyItem)
                     <div class="product">
-                        <a href="/item/{{$buyItem->id}}" class="product-link">
+                        <a href="/chat/{{$buyItem->id}}" class="product-link">
                             <img src="{{ asset('storage/item_image/' . $buyItem->item_image) }}" alt="item" class="product_img">
                             <p class="product_name">{{ $buyItem->item_name }}</p>
                         </a>
